@@ -1,0 +1,4913 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Website Project Discovery</title>
+    <meta
+      name="description"
+      content="Client onboarding and website requirements gathering form."
+    />
+    <style>
+      :root {
+        --ink: #0c0c0d;
+        --ink2: #18181b;
+        --line: #e4e4e7;
+        --line2: #d4d4d8;
+        --muted: #6b6b73;
+        --bg: #f5f5f6;
+        --card: #fff;
+        --red: #8c1c24;
+        --red2: #a8252f;
+        --ok: #1f6f43;
+        --warn: #8a5a00;
+        --r: 10px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font:
+          15px/1.55 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        -webkit-font-smoothing: antialiased;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+        top: 0;
+        background: #fff;
+        color: #000;
+        padding: 8px 12px;
+        z-index: 100;
+      }
+      .skip:focus {
+        left: 8px;
+        top: 8px;
+      }
+      :focus-visible {
+        outline: 2px solid var(--red);
+        outline-offset: 2px;
+      }
+      .app {
+        display: grid;
+        grid-template-columns: 292px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+      /* sidebar */
+      .side {
+        background: var(--ink);
+        color: #e6e6e9;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: auto;
+        padding: 26px 16px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+      .side :focus-visible {
+        outline-color: #fff;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 6px;
+      }
+      .mark {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #3a3a40;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        position: relative;
+      }
+      .mark::after {
+        content: "";
+        position: absolute;
+        left: -1px;
+        bottom: -1px;
+        width: 12px;
+        height: 2px;
+        background: var(--red2);
+      }
+      .brand b {
+        display: block;
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .brand span {
+        font-size: 12px;
+        color: #9a9aa3;
+      }
+      .steps {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .steps button {
+        all: unset;
+        box-sizing: border-box;
+        display: grid;
+        grid-template-columns: 26px 1fr auto;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 8px 8px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 13px;
+        color: #b8b8c0;
+      }
+      .steps button:hover {
+        background: #17171a;
+        color: #fff;
+      }
+      .steps button[aria-current="step"] {
+        background: #1e1e22;
+        color: #fff;
+        box-shadow: inset 2px 0 0 var(--red2);
+      }
+      .steps .n {
+        font-size: 11px;
+        color: #77777f;
+        font-variant-numeric: tabular-nums;
+      }
+      .steps .p {
+        font-size: 11px;
+        color: #77777f;
+        font-variant-numeric: tabular-nums;
+      }
+      .steps li.done .p {
+        color: #7fd1a0;
+      }
+      .side-actions {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 6px;
+      }
+      .side-actions .st {
+        font-size: 12px;
+        color: #8d8d96;
+        min-height: 18px;
+      }
+      .btn {
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: 1px solid var(--line2);
+        background: #fff;
+        color: var(--ink);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .btn:hover {
+        border-color: var(--ink);
+      }
+      .btn.primary {
+        background: var(--ink);
+        color: #fff;
+        border-color: var(--ink);
+      }
+      .btn.primary:hover {
+        background: #26262b;
+      }
+      .btn.red {
+        background: var(--red);
+        border-color: var(--red);
+        color: #fff;
+      }
+      .btn.red:hover {
+        background: var(--red2);
+      }
+      .btn.ghost {
+        background: transparent;
+        color: #d8d8dc;
+        border-color: #34343a;
+        font-size: 13px;
+        padding: 8px 12px;
+        text-align: left;
+      }
+      .btn.ghost:hover {
+        border-color: #8d8d96;
+        color: #fff;
+      }
+      .btn.danger {
+        color: var(--red);
+        border-color: #e8c6c9;
+      }
+      .btn.sm {
+        font-size: 12.5px;
+        padding: 6px 11px;
+      }
+      .btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      /* main */
+      .col {
+        min-width: 0;
+      }
+      .hero {
+        background: var(--ink);
+        color: #fff;
+        padding: 44px clamp(20px, 5vw, 64px) 38px;
+        position: relative;
+      }
+      .hero::after {
+        content: "";
+        position: absolute;
+        left: clamp(20px, 5vw, 64px);
+        bottom: 0;
+        width: 72px;
+        height: 3px;
+        background: var(--red2);
+      }
+      .hero .kick {
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #a0a0a8;
+        margin: 0 0 14px;
+      }
+      .hero h1 {
+        margin: 0 0 8px;
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1.1;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+      }
+      .hero .sub {
+        margin: 0 0 20px;
+        color: #c8c8ce;
+        font-size: 17px;
+      }
+      .hero .priv {
+        margin: 0;
+        max-width: 780px;
+        font-size: 13px;
+        line-height: 1.6;
+        color: #9d9da6;
+        border-left: 2px solid #34343a;
+        padding-left: 14px;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid var(--line);
+        padding: 12px clamp(20px, 5vw, 64px);
+      }
+      .tb-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .tb-row .lbl {
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .tb-row .lbl small {
+        font-weight: 400;
+        color: var(--muted);
+      }
+      .bar {
+        flex: 1;
+        min-width: 120px;
+        height: 6px;
+        background: var(--line);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: var(--ink);
+        width: 0;
+        transition: width 0.25s;
+      }
+      .ring {
+        position: relative;
+        width: 46px;
+        height: 46px;
+        flex: none;
+      }
+      .ring svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+      .ring circle {
+        fill: none;
+        stroke-width: 3.4;
+      }
+      .ring .rt {
+        stroke: var(--line);
+      }
+      .ring .rf {
+        stroke: var(--red);
+        stroke-linecap: round;
+        transition: stroke-dasharray 0.35s;
+      }
+      .ring .pct {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+      .mark img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      .mark.has-img {
+        border-color: transparent;
+      }
+      .mark.has-img::after {
+        display: none;
+      }
+      .powered img {
+        height: 16px;
+        width: auto;
+        vertical-align: -3px;
+        margin-left: 6px;
+      }
+      .segs {
+        display: flex;
+        gap: 3px;
+        margin-top: 10px;
+      }
+      .segs button {
+        all: unset;
+        flex: 1;
+        height: 5px;
+        background: var(--line2);
+        border-radius: 2px;
+        cursor: pointer;
+        box-sizing: border-box;
+      }
+      .segs button.part {
+        background: #9a9aa3;
+      }
+      .segs button.full {
+        background: var(--ink);
+      }
+      .segs button[aria-current="step"] {
+        background: var(--red);
+      }
+      .segs button:focus-visible {
+        outline: 2px solid var(--red);
+        outline-offset: 2px;
+      }
+      .menu-btn {
+        display: none;
+      }
+      main {
+        padding: 30px clamp(20px, 5vw, 64px) 60px;
+        max-width: 1080px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: clamp(20px, 3vw, 36px);
+      }
+      .sec-head {
+        padding-bottom: 20px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--line);
+      }
+      .eyebrow {
+        margin: 0 0 6px;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--red);
+        font-weight: 600;
+      }
+      .sec-head h2 {
+        margin: 0 0 8px;
+        font-size: 26px;
+        letter-spacing: -0.015em;
+        line-height: 1.2;
+        outline: none;
+      }
+      .sec-head .intro {
+        margin: 0;
+        color: var(--muted);
+        max-width: 720px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 22px;
+      }
+      .wide {
+        grid-column: 1/-1;
+      }
+      .field > label,
+      .field > .lab {
+        display: block;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+      .req {
+        color: var(--red);
+        margin-left: 3px;
+      }
+      .help {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin: 5px 0 0;
+      }
+      .field > .help:first-of-type {
+        margin-top: 0;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="url"],
+      input[type="date"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        font: inherit;
+        font-size: 14.5px;
+        color: var(--ink);
+        background: #fff;
+        border: 1px solid var(--line2);
+        border-radius: 8px;
+        padding: 10px 12px;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 96px;
+        line-height: 1.5;
+      }
+      input:hover,
+      select:hover,
+      textarea:hover {
+        border-color: #a1a1aa;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--ink);
+        box-shadow: 0 0 0 3px rgba(140, 28, 36, 0.16);
+      }
+      .field.bad input,
+      .field.bad select,
+      .field.bad textarea {
+        border-color: var(--red);
+      }
+      .err {
+        color: var(--red);
+        font-size: 12.5px;
+        margin-top: 5px;
+        font-weight: 500;
+      }
+      .err:empty {
+        display: none;
+      }
+      .opts {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+        gap: 8px;
+      }
+      .opt {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 9px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 400;
+        margin: 0;
+        background: #fff;
+      }
+      .opt:hover {
+        border-color: var(--line2);
+      }
+      .opt input {
+        margin: 3px 0 0;
+        accent-color: var(--red);
+        flex: none;
+      }
+      .opt:has(input:checked) {
+        border-color: var(--ink);
+        background: #fafafa;
+      }
+      .field.bad .opts {
+        outline: 1px solid var(--red);
+        outline-offset: 3px;
+        border-radius: 8px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+      }
+      .chip {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        background: var(--ink);
+        color: #fff;
+        border-radius: 999px;
+        padding: 3px 6px 3px 12px;
+        font-size: 13px;
+      }
+      .chip button {
+        all: unset;
+        cursor: pointer;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 17px;
+        background: #3a3a40;
+      }
+      .chip button:hover {
+        background: var(--red);
+      }
+      .addrow {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .addrow input {
+        flex: 1;
+      }
+      .group {
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 20px;
+        margin: 0;
+        min-width: 0;
+      }
+      .group legend {
+        padding: 0 8px;
+        font-weight: 650;
+        font-size: 14px;
+        letter-spacing: 0.02em;
+      }
+      .note {
+        background: #fafafa;
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--ink);
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 13.5px;
+        color: #3a3a40;
+      }
+      .note.warn {
+        border-left-color: var(--red);
+        background: #fdf6f6;
+      }
+      .note b {
+        color: var(--ink);
+      }
+      .rep {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .rep-item {
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 16px;
+        background: #fcfcfc;
+        position: relative;
+      }
+      .rep-item .grid {
+        gap: 14px 16px;
+      }
+      .rep-item .sublab {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #3a3a40;
+      }
+      .rep-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .pages {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .page-row {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 8px 12px;
+        background: #fff;
+      }
+      .page-row.on {
+        border-color: var(--ink);
+        background: #fcfcfc;
+      }
+      .page-row .top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: space-between;
+      }
+      .page-row .top .opt {
+        border: 0;
+        padding: 4px 0;
+        background: transparent;
+        flex: 1;
+      }
+      .page-row .top input.pname {
+        flex: 1;
+        font-weight: 600;
+      }
+      .page-row .pc {
+        display: none;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 8px;
+        padding-top: 10px;
+        border-top: 1px dashed var(--line);
+      }
+      .page-row.on .pc {
+        display: grid;
+      }
+      .page-row .pc .full {
+        grid-column: 1/-1;
+      }
+      .page-row .pc label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #3a3a40;
+        display: block;
+        margin-bottom: 3px;
+      }
+      .page-row select,
+      .page-row input[type="text"] {
+        padding: 7px 9px;
+        font-size: 13.5px;
+      }
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 22px;
+        flex-wrap: wrap;
+      }
+      .nav .mid {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      details.dev {
+        border: 1px dashed #8d8d96;
+        border-radius: var(--r);
+        padding: 0;
+        background: #f4f4f5;
+        margin-top: 26px;
+      }
+      details.dev summary {
+        cursor: pointer;
+        padding: 14px 18px;
+        font-weight: 650;
+        font-size: 14px;
+        list-style: none;
+      }
+      details.dev summary::before {
+        content: "+ ";
+        color: var(--red);
+      }
+      details.dev[open] summary::before {
+        content: "\2212  ";
+      }
+      details.dev .in {
+        padding: 4px 18px 20px;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: #e4e4e7;
+        color: #3a3a40;
+        margin-left: 8px;
+      }
+      /* review */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin-bottom: 22px;
+      }
+      .stat {
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 14px 16px;
+        background: #fafafa;
+      }
+      .stat b {
+        display: block;
+        font-size: 24px;
+        letter-spacing: -0.02em;
+      }
+      .stat span {
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .alert {
+        border: 1px solid #e8c6c9;
+        background: #fdf6f6;
+        border-radius: var(--r);
+        padding: 14px 18px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+      .alert b {
+        color: var(--red);
+      }
+      .alert ul {
+        margin: 8px 0 0;
+        padding-left: 20px;
+      }
+      .alert a,
+      .linkbtn {
+        all: unset;
+        color: var(--red);
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .rv {
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        margin-bottom: 16px;
+        overflow: hidden;
+        break-inside: avoid-page;
+      }
+      .rv-h {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 18px;
+        background: #fafafa;
+        border-bottom: 1px solid var(--line);
+      }
+      .rv-h h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .rv-h h3 em {
+        font-style: normal;
+        color: var(--red);
+        margin-right: 8px;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+      }
+      .rv-b {
+        padding: 6px 18px 14px;
+      }
+      .rv-sub {
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 14px 0 4px;
+        font-weight: 700;
+      }
+      .kv {
+        display: grid;
+        grid-template-columns: minmax(120px, 210px) 1fr;
+        gap: 6px 18px;
+        font-size: 14px;
+        margin: 0;
+      }
+      .kv dt {
+        color: var(--muted);
+        padding: 6px 0;
+        border-bottom: 1px solid #f0f0f2;
+      }
+      .kv dd {
+        margin: 0;
+        padding: 6px 0;
+        border-bottom: 1px solid #f0f0f2;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      .kv dd ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .kv dd.pending,
+      .empty {
+        color: var(--muted);
+        font-style: italic;
+      }
+      .tbl-w {
+        overflow-x: auto;
+        margin: 8px 0;
+      }
+      table.t {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 13px;
+      }
+      table.t th {
+        background: var(--ink);
+        color: #fff;
+        text-align: left;
+        padding: 7px 10px;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      table.t td {
+        border-bottom: 1px solid var(--line);
+        padding: 7px 10px;
+        vertical-align: top;
+        overflow-wrap: anywhere;
+        white-space: pre-wrap;
+      }
+      table.t tr:nth-child(even) td {
+        background: #fafafa;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 22px 0 4px;
+        align-items: center;
+      }
+      .actions .btn.big {
+        font-size: 15px;
+        padding: 13px 22px;
+      }
+      .confirm {
+        border: 1px solid var(--line2);
+        border-radius: var(--r);
+        padding: 18px;
+        margin: 24px 0 6px;
+      }
+      .confirm h3 {
+        margin: 0 0 12px;
+        font-size: 16px;
+      }
+      .confirm .grid {
+        margin-top: 14px;
+      }
+      #toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translate(-50%, 20px);
+        background: var(--ink);
+        color: #fff;
+        padding: 12px 18px;
+        border-radius: 8px;
+        font-size: 14px;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.25s;
+        z-index: 60;
+        max-width: 90vw;
+        border-left: 3px solid var(--red2);
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      #toast.ok {
+        border-left-color: #3fae72;
+      }
+      dialog {
+        border: 0;
+        border-radius: var(--r);
+        padding: 0;
+        max-width: 440px;
+        width: 92vw;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      }
+      dialog::backdrop {
+        background: rgba(10, 10, 12, 0.6);
+      }
+      dialog form {
+        padding: 24px;
+      }
+      dialog h3 {
+        margin: 0 0 8px;
+      }
+      dialog p {
+        margin: 0 0 20px;
+        color: #3a3a40;
+      }
+      dialog .row {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+      .site-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px 24px;
+        flex-wrap: wrap;
+        margin: 0 clamp(20px, 5vw, 64px);
+        padding: 20px 0 32px;
+        border-top: 1px solid var(--line2);
+        color: var(--muted);
+        font-size: 12.5px;
+        max-width: 1080px;
+      }
+      .site-foot p {
+        margin: 0;
+      }
+      .site-foot .foot-note {
+        flex: 1 1 280px;
+      }
+      .powered {
+        flex: 0 0 auto;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+      }
+      .powered strong {
+        color: var(--ink);
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding-left: 2px;
+        border-bottom: 2px solid var(--red);
+      }
+      @media (max-width: 640px) {
+        .site-foot {
+          flex-direction: column;
+          align-items: flex-start;
+          text-align: left;
+          padding-bottom: 28px;
+        }
+        .powered {
+          align-self: flex-start;
+        }
+      }
+      @media (max-width: 980px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+        .side {
+          position: fixed;
+          inset: 0 20% 0 0;
+          max-width: 320px;
+          height: 100vh;
+          z-index: 50;
+          transform: translateX(-102%);
+          transition: transform 0.25s;
+        }
+        .side.open {
+          transform: none;
+          box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+        }
+        .menu-btn {
+          display: inline-block;
+        }
+      }
+      @media (max-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .kv {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+        .kv dt {
+          border: 0;
+          padding-bottom: 0;
+          font-size: 12px;
+        }
+        .page-row .pc {
+          grid-template-columns: 1fr;
+        }
+        .nav .btn {
+          flex: 1;
+        }
+        .hero {
+          padding-top: 30px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+      @media print {
+        body {
+          background: #fff;
+          font-size: 12px;
+        }
+        .side,
+        .hero,
+        .topbar,
+        .nav,
+        .no-print,
+        .site-foot,
+        #toast {
+          display: none !important;
+        }
+        .app {
+          display: block;
+        }
+        main {
+          padding: 0;
+          max-width: none;
+        }
+        .card {
+          border: 0;
+          padding: 0;
+        }
+        .rv {
+          break-inside: avoid-page;
+        }
+        details.dev {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to form</a>
+    <div class="app">
+      <aside class="side" id="side" aria-label="Form sections">
+        <div class="brand">
+          <div class="mark" id="brandMark">Y</div>
+          <div>
+            <b id="brandName">Your Studio Name</b
+            ><span id="brandTag">Web Development</span>
+          </div>
+        </div>
+        <nav aria-label="Sections"><ol class="steps" id="steps"></ol></nav>
+        <div class="side-actions no-print">
+          <div class="st" id="saveState" aria-live="polite"></div>
+          <button class="btn ghost" type="button" data-act="save">
+            Save progress
+          </button>
+          <button class="btn ghost" type="button" data-act="export-json">
+            Export data (JSON)
+          </button>
+          <button class="btn ghost" type="button" data-act="import-json">
+            Import data (JSON)
+          </button>
+          <button class="btn ghost" type="button" data-act="reset">
+            Reset form
+          </button>
+          <button class="btn ghost" type="button" data-act="erase">
+            Erase saved draft
+          </button>
+          <input
+            type="file"
+            id="importFile"
+            accept="application/json,.json"
+            hidden
+          />
+        </div>
+      </aside>
+      <div class="col">
+        <header class="hero">
+          <p class="kick" id="heroBrand">Your Studio Name</p>
+          <h1>Website Project Discovery</h1>
+          <p class="sub">
+            Let's understand your business, goals, and requirements.
+          </p>
+          <p class="priv">
+            Privacy: what you enter stays in this browser, on this device.
+            Nothing is sent to a server. Drafts are saved locally so you can
+            return later, and you can erase them at any time. Please do not
+            enter passwords, secret API keys, access tokens or payment details
+            anywhere in this form; access to accounts will be arranged securely
+            later. On a shared computer, erase the saved draft after you
+            download your document.
+          </p>
+        </header>
+        <div class="topbar no-print">
+          <div class="tb-row">
+            <button
+              class="btn sm menu-btn"
+              type="button"
+              id="menuBtn"
+              aria-expanded="false"
+              aria-controls="side"
+            >
+              Sections
+            </button>
+            <div class="lbl" id="stepLabel"></div>
+            <div
+              class="bar"
+              role="progressbar"
+              aria-label="Overall completion"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              id="bar"
+            >
+              <i id="barFill"></i>
+            </div>
+            <div class="ring" id="ring" aria-hidden="true">
+              <svg viewBox="0 0 36 36">
+                <circle
+                  class="rt"
+                  cx="18"
+                  cy="18"
+                  r="15.9155"
+                  pathLength="100"
+                ></circle>
+                <circle
+                  class="rf"
+                  id="ringFill"
+                  cx="18"
+                  cy="18"
+                  r="15.9155"
+                  pathLength="100"
+                  stroke-dasharray="0 100"
+                ></circle></svg
+              ><span class="pct" id="pct">0%</span>
+            </div>
+            <button class="btn sm" type="button" data-act="save">
+              Save progress
+            </button>
+          </div>
+          <div class="segs" id="segs" aria-label="Jump to section"></div>
+        </div>
+        <main id="main">
+          <form id="form" novalidate onsubmit="return false;">
+            <div id="stepRoot"></div>
+            <div class="nav no-print" id="nav">
+              <button class="btn" type="button" id="prevBtn">
+                &larr; Previous
+              </button>
+              <div class="mid" id="navMid"></div>
+              <button class="btn primary" type="button" id="nextBtn">
+                Next &rarr;
+              </button>
+            </div>
+          </form>
+        </main>
+        <footer class="site-foot no-print">
+          <p class="foot-note">
+            This form collects requirements for discussion. It is not a
+            contract, quotation or legal advice.
+          </p>
+          <p class="powered">
+            Powered by <strong id="poweredBy">Archer</strong>
+          </p>
+        </footer>
+      </div>
+    </div>
+    <dialog id="dlg">
+      <form method="dialog">
+        <h3 id="dlgT"></h3>
+        <p id="dlgM"></p>
+        <div class="row">
+          <button class="btn" value="cancel">Cancel</button
+          ><button class="btn red" value="ok" id="dlgOk">Confirm</button>
+        </div>
+      </form>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      onerror="window.__pdfLibFailed = true"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"
+      onerror="window.__pdfLibFailed = true"
+    ></script>
+    <script>
+      "use strict";
+      /* =====================================================================
+   BRANDING - edit this block to customise the app and the PDF.
+   ===================================================================== */
+      const CONFIG = {
+        brandName: "Your Studio Name",
+        brandTagline: "Web Development",
+        poweredBy: "Archer", // footer credit: "Powered by ..." (set to '' to hide)
+        logoUrl: "", // your logo: a URL or relative path, e.g. 'logo.png' or 'logo.svg'. Empty = letter mark
+        poweredByLogoUrl: "", // optional small Archer logo shown beside the footer credit
+        docPrefix: "WPR",
+        defaultStatus: "Initial Requirements \u2014 Pending Developer Review",
+        confidentiality:
+          "Confidential. This document contains information supplied by the client for the purpose of scoping a website project. It must not be shared with third parties without the client\u2019s consent.",
+        storageKey: "webProjectDiscovery.draft.v1",
+      };
+
+      /* =====================================================================
+   SCHEMA
+   ===================================================================== */
+      const NS = "Not sure \u2014 discuss with developer";
+      const REC = "Recommend the best option";
+      const YN = ["Yes", "No", NS];
+      const YNP = ["Yes", "No", "Partially", NS];
+      const PRIORITY = [
+        "Must-have",
+        "Should-have",
+        "Nice-to-have",
+        "Future phase",
+      ];
+      const F = (id, label, type, o) =>
+        Object.assign({ id, label, type: type || "text" }, o || {});
+      const is =
+        (id, ...vals) =>
+        (d) =>
+          vals.includes(d[id]);
+      const inc =
+        (id, ...vals) =>
+        (d) =>
+          Array.isArray(d[id]) && vals.some((v) => d[id].includes(v));
+      const hasPage = (name) => (d) =>
+        Array.isArray(d.pages) &&
+        d.pages.some((p) => p.name === name && p.include);
+      const isEcom = (d) =>
+        is("projectType", "E-commerce store")(d) ||
+        is("siteCategory", "E-commerce")(d) ||
+        inc("featureAreas", "E-commerce features")(d) ||
+        hasPage("Shop")(d);
+      const isApp = (d) =>
+        is("projectType", "Web application", "SaaS platform")(d) ||
+        is("siteCategory", "Web application / SaaS")(d) ||
+        inc("featureAreas", "Web application features")(d);
+      const isBooking = (d) =>
+        inc("featureAreas", "Booking & service features")(d) ||
+        hasPage("Booking or appointments")(d) ||
+        is("goal", "Book appointments")(d);
+      const isRedesign = (d) =>
+        is("projectType", "Website redesign", "Website migration")(d);
+
+      const DEFAULT_PAGES = [
+        "Home",
+        "About",
+        "Services",
+        "Individual service detail pages",
+        "Products",
+        "Shop",
+        "Product detail pages",
+        "Portfolio or case studies",
+        "Blog or resources",
+        "Contact",
+        "FAQ",
+        "Testimonials",
+        "Pricing",
+        "Booking or appointments",
+        "Login and registration",
+        "User dashboard",
+        "Admin dashboard",
+        "Careers",
+        "Privacy policy",
+        "Terms and conditions",
+        "Cookie policy",
+      ];
+      const PAGE_PRIORITY = ["Required", "Optional", "Future phase"];
+      const PAGE_CONTENT = [
+        "Content exists",
+        "Partially exists",
+        "Needs to be created",
+        NS,
+      ];
+      const PAGE_COPY = ["Client will write it", "Copywriting needed", NS];
+
+      const COMPLEX = [
+        "Payment gateway",
+        "Real-time functionality",
+        "Role-based permissions",
+        "External API integrations",
+        "Multi-language support",
+        "Inventory management",
+        "Live chat or chatbot",
+        "Database-backed records",
+        "User authentication",
+        "Order tracking",
+        "Returns and refund workflows",
+        "Reporting and analytics",
+        "Deposits or online payments",
+        "Customer accounts",
+        "Shipping configuration",
+        "Tax configuration",
+        "Availability calendar",
+        "Reminder notifications",
+        "Notifications",
+        "File uploads",
+        "Product variants",
+        "Coupons and discounts",
+        "Admin dashboard",
+        "User dashboard",
+      ];
+
+      const SECTIONS = [
+        {
+          title: "Client & Contact Information",
+          intro:
+            "Who we will be working with and how best to reach you. Optional fields can be skipped.",
+          fields: [
+            F("fullName", "Full name", "text", { required: true, ac: "name" }),
+            F("company", "Business or company name", "text", {
+              ac: "organization",
+            }),
+            F("role", "Job title or role", "text"),
+            F("email", "Email address", "email", {
+              required: true,
+              ac: "email",
+            }),
+            F("phone", "Phone or WhatsApp number", "tel", {
+              ac: "tel",
+              important: true,
+              help: "Include the country code, e.g. +92 300 0000000.",
+            }),
+            F("prefContact", "Preferred contact method", "select", {
+              options: [
+                "Email",
+                "Phone call",
+                "WhatsApp",
+                "Video call",
+                "Other",
+              ],
+            }),
+            F("country", "Country", "text", { ac: "country-name" }),
+            F("city", "City", "text"),
+            F("address", "Business address (if relevant)", "textarea", {
+              rows: 2,
+              wide: true,
+            }),
+            F("currentUrl", "Existing website URL", "url", {
+              ph: "https://",
+              help: "Leave blank if you do not have a website yet.",
+            }),
+            F("commHours", "Preferred communication hours / timezone", "text", {
+              ph: "e.g. Mon\u2013Fri, 10:00\u201317:00 PKT (UTC+5)",
+            }),
+            F("inquiryDate", "Date of inquiry", "date"),
+            F("referral", "How did you find us?", "select", {
+              options: [
+                "Referral",
+                "Social media",
+                "Existing client",
+                "Search engine",
+                "Other",
+              ],
+            }),
+            F("referralOther", "Please specify", "text", {
+              showIf: is("referral", "Referral", "Other"),
+              ph: "Who referred you, or where did you hear about us?",
+            }),
+            F("decisionMaker", "Primary decision-maker", "text", {
+              important: true,
+              help: "The person with final say on scope, budget and approvals.",
+            }),
+            F(
+              "stakeholders",
+              "Other stakeholders involved in approval",
+              "textarea",
+              { rows: 2, wide: true, ph: "Names and roles, if any" },
+            ),
+          ],
+        },
+        {
+          title: "Business Overview",
+          intro:
+            "Tell us about your business so the website can represent it accurately.",
+          fields: [
+            F("businessName", "Business name", "text"),
+            F("industry", "Industry or business category", "text", {
+              ph: "e.g. Legal services, Restaurants, Software",
+            }),
+            F("bizModel", "Business model", "select", {
+              options: [
+                "B2B",
+                "B2C",
+                "B2B2C",
+                "Nonprofit",
+                "Personal brand",
+                "Other",
+              ],
+            }),
+            F("bizModelOther", "Please specify", "text", {
+              showIf: is("bizModel", "Other"),
+            }),
+            F("bizDesc", "Business description", "textarea", { rows: 5 }),
+            F("products", "Main products or services", "textarea", { rows: 4 }),
+            F("usp", "Unique selling proposition", "textarea", {
+              help: "Why do customers choose you over alternatives?",
+            }),
+            F("different", "What makes the business different?", "textarea"),
+            F("competitors", "Main competitors", "repeater", {
+              addLabel: "Add competitor",
+              sub: [
+                { k: "name", label: "Competitor name", type: "text" },
+                { k: "url", label: "Website URL", type: "url" },
+                {
+                  k: "notes",
+                  label: "Notes (strengths, what you admire or dislike)",
+                  type: "text",
+                  wide: true,
+                },
+              ],
+            }),
+            F("serviceArea", "Geographic service area", "text", {
+              ph: "e.g. Islamabad and Rawalpindi; nationwide; worldwide",
+            }),
+            F("onlinePresence", "Current online presence", "textarea", {
+              rows: 3,
+              help: "Website, marketplaces, directories, Google Business Profile, etc.",
+            }),
+            F("challenges", "Current business challenges", "textarea"),
+            F("marketing", "Existing marketing channels", "checks", {
+              custom: true,
+              options: [
+                "SEO",
+                "Paid search ads",
+                "Social media ads",
+                "Organic social media",
+                "Email marketing",
+                "Content marketing",
+                "Events",
+                "Referrals / word of mouth",
+                "Print / offline",
+                "None yet",
+              ],
+            }),
+            F("socials", "Social media profiles", "repeater", {
+              addLabel: "Add profile",
+              sub: [
+                {
+                  k: "platform",
+                  label: "Platform",
+                  type: "text",
+                  ph: "Instagram, LinkedIn\u2026",
+                },
+                { k: "url", label: "Profile URL", type: "url" },
+              ],
+            }),
+          ],
+        },
+        {
+          title: "Project Overview",
+          intro: "The big picture: what you want to build and why.",
+          fields: [
+            F("projectName", "Project name", "text", {
+              required: true,
+              ph: "e.g. Acme Corporate Website 2026",
+            }),
+            F("projectType", "Project type", "select", {
+              required: true,
+              options: [
+                "New website",
+                "Website redesign",
+                "Website migration",
+                "Landing page",
+                "Web application",
+                "E-commerce store",
+                "Portfolio",
+                "Business website",
+                "SaaS platform",
+                "Other",
+                NS,
+              ],
+            }),
+            F("projectTypeOther", "Please specify project type", "text", {
+              showIf: is("projectType", "Other"),
+            }),
+            F("engagement", "Engagement model", "select", {
+              options: [
+                "Fixed-scope project",
+                "Ongoing engagement",
+                "Fixed-scope project followed by ongoing support",
+                NS,
+              ],
+            }),
+            F("projectDesc", "Brief project description", "textarea", {
+              rows: 4,
+            }),
+            F("why", "Why are you starting this project now?", "textarea"),
+            F(
+              "problems",
+              "What problems should the website solve?",
+              "textarea",
+            ),
+            F("success", "What does success look like?", "textarea", {
+              help: "Describe it in plain terms, ideally with something measurable.",
+            }),
+            F("objectives", "Main project objectives", "textarea"),
+            {
+              type: "group",
+              title: "Three most important priorities",
+              fields: [
+                F("prio1", "Priority 1", "text", { important: true }),
+                F("prio2", "Priority 2", "text"),
+                F("prio3", "Priority 3", "text"),
+              ],
+            },
+            {
+              type: "group",
+              title: "Existing website",
+              showIf: isRedesign,
+              intro:
+                "Because this is a redesign or migration, a few details about the current site help us plan.",
+              fields: [
+                F("projCurrentUrl", "Current website URL", "url", {
+                  ph: "https://",
+                }),
+                F("retain", "What should be retained?", "textarea", {
+                  rows: 3,
+                }),
+                F(
+                  "replace",
+                  "What should be replaced or improved?",
+                  "textarea",
+                  { rows: 3 },
+                ),
+                F(
+                  "currentPlatform",
+                  "Current platform / CMS (if known)",
+                  "text",
+                  { ph: "WordPress, Wix, custom\u2026" },
+                ),
+                F(
+                  "contentMigration",
+                  "Does content need to be migrated?",
+                  "select",
+                  {
+                    options: [
+                      "Yes, all of it",
+                      "Yes, selected content",
+                      "No, new content only",
+                      NS,
+                    ],
+                  },
+                ),
+              ],
+            },
+            F("outcome", "Expected outcome", "textarea"),
+          ],
+        },
+        {
+          title: "Website Goals & Target Audience",
+          intro: "Who the website is for and what you want visitors to do.",
+          fields: [
+            F("goal", "Primary website goal", "select", {
+              required: true,
+              options: [
+                "Generate leads",
+                "Sell products",
+                "Build brand awareness",
+                "Book appointments",
+                "Provide information",
+                "Build a community",
+                "Other",
+                NS,
+              ],
+            }),
+            F("goalOther", "Please specify goal", "text", {
+              showIf: is("goal", "Other"),
+            }),
+            F("secondaryGoals", "Secondary goals", "checks", {
+              custom: true,
+              options: [
+                "Generate leads",
+                "Sell products",
+                "Build brand awareness",
+                "Book appointments",
+                "Provide information",
+                "Build a community",
+                "Recruit staff",
+                "Improve customer support",
+              ],
+            }),
+            F("audience", "Target audience and demographics", "textarea", {
+              important: true,
+              help: "Age range, location, interests, job roles, income level, whatever is relevant.",
+            }),
+            F(
+              "audienceIndustries",
+              "Target customer industries or professions",
+              "textarea",
+              { rows: 3 },
+            ),
+            F("painPoints", "Customer pain points", "textarea", { rows: 3 }),
+            F(
+              "desiredActions",
+              "Actions you want visitors to take",
+              "textarea",
+              { rows: 3 },
+            ),
+            F("cta", "Primary call to action", "text", {
+              important: true,
+              ph: "e.g. Request a quote, Book a call, Buy now",
+            }),
+            F("markets", "Target countries or markets", "text"),
+            F("languages", "Languages required", "text", {
+              ph: "e.g. English, Urdu",
+            }),
+            F("traffic", "Expected website traffic", "select", {
+              options: [
+                "Under 1,000 visits / month",
+                "1,000 \u2013 10,000 / month",
+                "10,000 \u2013 50,000 / month",
+                "Over 50,000 / month",
+                "Unknown",
+              ],
+            }),
+            F("conversions", "Desired conversion actions", "checks", {
+              custom: true,
+              options: [
+                "Contact form submission",
+                "Purchase",
+                "Booking",
+                "Phone call",
+                "WhatsApp message",
+                "Newsletter signup",
+                "File download",
+                "Account registration",
+              ],
+            }),
+            F("successMeasure", "How will you measure success?", "textarea", {
+              rows: 3,
+            }),
+            F(
+              "existingData",
+              "Existing analytics or conversion data",
+              "textarea",
+              {
+                rows: 3,
+                help: "Current visits, conversion rates, top pages, if you have them.",
+              },
+            ),
+          ],
+        },
+        {
+          title: "Website Type & Scope",
+          intro:
+            'A rough idea of size and complexity. Choose "Not sure" wherever you want guidance.',
+          fields: [
+            F("siteCategory", "Website category", "select", {
+              important: true,
+              options: [
+                "Business / corporate",
+                "Portfolio",
+                "Blog / media",
+                "Landing page",
+                "E-commerce",
+                "Web application / SaaS",
+                "Directory / marketplace",
+                "Education / courses",
+                "Nonprofit",
+                "Other",
+                NS,
+              ],
+            }),
+            F("size", "Estimated project size", "select", {
+              options: [
+                "Small (1\u20135 pages)",
+                "Medium (6\u201315 pages)",
+                "Large (16\u201340 pages)",
+                "Very large (40+ pages)",
+                NS,
+              ],
+            }),
+            F("pageCount", "Approximate number of pages", "number", {
+              min: 0,
+              ph: "e.g. 8",
+            }),
+            F("nature", "Nature of the website", "select", {
+              options: [
+                "Informational",
+                "Transactional",
+                "Application-based",
+                "A mix",
+                NS,
+              ],
+            }),
+            F("structure", "Single-page or multi-page", "select", {
+              options: ["Single page", "Multi-page", NS],
+            }),
+            F("userAccounts", "Are user accounts required?", "select", {
+              options: YN,
+            }),
+            F("adminDash", "Is an admin dashboard required?", "select", {
+              options: YN,
+            }),
+            F(
+              "cms",
+              "Does content need to be managed through a CMS?",
+              "select",
+              {
+                options: [
+                  "Yes, I want to edit content myself",
+                  "No, a static site is fine",
+                  NS,
+                ],
+              },
+            ),
+            F("customFunc", "Do you expect custom functionality?", "select", {
+              options: YN,
+            }),
+            F("maintenance", "Ongoing maintenance after launch", "select", {
+              options: [
+                "Not needed",
+                "Yes, monthly maintenance",
+                "A short post-launch support period only",
+                NS,
+              ],
+            }),
+            {
+              type: "note",
+              text: "Complex items (accounts, dashboards, custom functionality) are flagged for developer review and estimation. They are not assumed to be included in any price.",
+            },
+          ],
+        },
+        {
+          title: "Pages & Site Structure",
+          intro:
+            "Tick the pages you expect, set a priority, and tell us whether the content already exists. You can add your own pages.",
+          fields: [
+            F("pages", "Pages", "pages"),
+            F(
+              "sitemapHelp",
+              "Do you need help planning the sitemap?",
+              "select",
+              { options: YN },
+            ),
+            F(
+              "pagesNotes",
+              "Other notes about structure or navigation",
+              "textarea",
+              { rows: 3, wide: true },
+            ),
+          ],
+        },
+        {
+          title: "Features & Functional Requirements",
+          intro:
+            "Select what the website should do. Anything marked as complex will be reviewed by the developer before it is quoted.",
+          fields: [
+            {
+              type: "group",
+              title: "Common website features",
+              fields: [
+                F("commonFeatures", "Select all that apply", "checks", {
+                  custom: true,
+                  options: [
+                    "Responsive mobile design",
+                    "Contact forms",
+                    "Newsletter subscription",
+                    "WhatsApp integration",
+                    "Live chat or chatbot",
+                    "Search functionality",
+                    "Filtering and sorting",
+                    "Interactive maps",
+                    "Testimonials and reviews",
+                    "Image galleries",
+                    "Video embedding",
+                    "Blog or CMS",
+                    "Downloadable documents",
+                    "Multi-language support",
+                    "Accessibility requirements",
+                    "Animations and interactive elements",
+                  ],
+                }),
+              ],
+            },
+            F(
+              "featureAreas",
+              "Additional feature areas to configure",
+              "checks",
+              {
+                options: [
+                  "E-commerce features",
+                  "Booking & service features",
+                  "Web application features",
+                ],
+                help: "These reveal extra questions. They also appear automatically if you chose a matching project type.",
+              },
+            ),
+            {
+              type: "group",
+              title: "E-commerce features",
+              showIf: isEcom,
+              fields: [
+                F("ecomFeatures", "Select all that apply", "checks", {
+                  custom: true,
+                  options: [
+                    "Product catalog",
+                    "Product variants",
+                    "Shopping cart",
+                    "Checkout",
+                    "Payment gateway",
+                    "Shipping configuration",
+                    "Tax configuration",
+                    "Coupons and discounts",
+                    "Inventory management",
+                    "Order tracking",
+                    "Customer accounts",
+                    "Returns and refund workflows",
+                    "Transactional emails",
+                  ],
+                }),
+                F("productCount", "Approximate number of products", "text", {
+                  ph: "e.g. 50",
+                }),
+                F("productType", "Product type", "select", {
+                  options: [
+                    "Physical goods",
+                    "Digital goods",
+                    "Both",
+                    "Services",
+                    NS,
+                  ],
+                }),
+                F("paymentMethods", "Payment methods needed", "text", {
+                  ph: "Cards, bank transfer, cash on delivery, wallets\u2026",
+                }),
+                F("shipRegions", "Shipping regions", "text"),
+              ],
+            },
+            {
+              type: "group",
+              title: "Booking & service features",
+              showIf: isBooking,
+              fields: [
+                F("bookingFeatures", "Select all that apply", "checks", {
+                  custom: true,
+                  options: [
+                    "Appointment scheduling",
+                    "Availability calendar",
+                    "Staff or service selection",
+                    "Booking confirmation",
+                    "Reminder notifications",
+                    "Deposits or online payments",
+                  ],
+                }),
+                F(
+                  "bookServices",
+                  "Services or appointment types to book",
+                  "textarea",
+                  { rows: 3 },
+                ),
+                F(
+                  "bookStaff",
+                  "Number of staff / resources with their own calendars",
+                  "text",
+                ),
+                F("bookCalendar", "Existing calendar to sync with", "text", {
+                  ph: "Google Calendar, Outlook\u2026",
+                }),
+                F(
+                  "bookRules",
+                  "Cancellation, rescheduling and lead-time rules",
+                  "textarea",
+                  { rows: 3 },
+                ),
+              ],
+            },
+            {
+              type: "group",
+              title: "Web application features",
+              showIf: isApp,
+              fields: [
+                F("appFeatures", "Select all that apply", "checks", {
+                  custom: true,
+                  options: [
+                    "User authentication",
+                    "Role-based permissions",
+                    "User dashboard",
+                    "Admin dashboard",
+                    "Database-backed records",
+                    "File uploads",
+                    "Notifications",
+                    "Reporting and analytics",
+                    "Real-time functionality",
+                    "External API integrations",
+                  ],
+                }),
+                F(
+                  "appUsers",
+                  "Who are the users and how many do you expect?",
+                  "textarea",
+                  { rows: 3 },
+                ),
+                F("appRoles", "User roles and what each can do", "textarea", {
+                  rows: 3,
+                }),
+                F(
+                  "appData",
+                  "Main data / records the app must manage",
+                  "textarea",
+                  { rows: 3 },
+                ),
+                F("appDash", "Dashboards or reports needed", "textarea", {
+                  rows: 3,
+                }),
+              ],
+            },
+            F(
+              "customFeatures",
+              "Custom features in your own words",
+              "repeater",
+              {
+                addLabel: "Add custom feature",
+                itemLabel: "Feature",
+                help: "Describe anything that is not covered above. All custom features are marked for developer review.",
+                sub: [
+                  { k: "name", label: "Feature name", type: "text" },
+                  {
+                    k: "priority",
+                    label: "Priority",
+                    type: "select",
+                    options: PRIORITY,
+                  },
+                  {
+                    k: "description",
+                    label: "Description",
+                    type: "textarea",
+                    wide: true,
+                  },
+                  {
+                    k: "behavior",
+                    label: "Expected user behaviour",
+                    type: "textarea",
+                    wide: true,
+                  },
+                  { k: "roles", label: "User roles involved", type: "text" },
+                  { k: "ref", label: "Example or reference link", type: "url" },
+                ],
+              },
+            ),
+            F("featuresNotes", "Other functional requirements", "textarea", {
+              wide: true,
+            }),
+          ],
+        },
+        {
+          title: "Design & Branding",
+          intro: "Your visual preferences and any existing brand assets.",
+          fields: [
+            F("designStyle", "Preferred design style", "checks", {
+              custom: true,
+              important: true,
+              options: [
+                "Minimal",
+                "Corporate",
+                "Modern",
+                "Luxury",
+                "Creative",
+                "Editorial",
+                "Bold",
+                "Playful",
+              ],
+            }),
+            F("palette", "Preferred colour palette", "textarea", { rows: 2 }),
+            F("brandColors", "Brand primary and secondary colours", "text", {
+              ph: "e.g. #0C0C0D, #8C1C24",
+            }),
+            F("guidelines", "Existing brand guidelines", "select", {
+              options: ["Yes", "No", "In progress", NS],
+            }),
+            F("guidelinesLink", "Link to brand guidelines", "url", {
+              showIf: is("guidelines", "Yes", "In progress"),
+              ph: "https://",
+            }),
+            F("logo", "Logo availability", "select", {
+              options: [
+                "Vector files available",
+                "Image file only",
+                "No logo yet; logo design needed",
+                NS,
+              ],
+            }),
+            F("fonts", "Font preferences", "text"),
+            F("inspiration", "Websites you like", "repeater", {
+              addLabel: "Add reference website",
+              itemLabel: "Reference",
+              sub: [
+                { k: "url", label: "URL", type: "url" },
+                {
+                  k: "likes",
+                  label: "What do you like about it?",
+                  type: "text",
+                },
+              ],
+            }),
+            F("avoid", "What should the new website avoid?", "textarea", {
+              rows: 3,
+            }),
+            F("appearance", "Light or dark appearance", "select", {
+              options: ["Light", "Dark", "Both (with a toggle)", REC],
+            }),
+            F("designComplexity", "Design complexity", "select", {
+              options: [
+                "Simple and clean",
+                "Moderate",
+                "Rich and detailed",
+                NS,
+              ],
+            }),
+            F("animation", "Animation preference", "select", {
+              options: ["None", "Subtle", "Rich and interactive", REC],
+            }),
+            F("figma", "Existing design files or Figma link", "url", {
+              ph: "https://",
+            }),
+            F("uiux", "Is a full UI/UX design phase required?", "select", {
+              options: YN,
+            }),
+            F("wireframes", "Are wireframes or prototypes needed?", "select", {
+              options: YN,
+            }),
+            F(
+              "assetLinks",
+              "Links to logos, images and other design assets",
+              "textarea",
+              {
+                rows: 3,
+                help: "This form cannot upload files. Paste links to a shared folder (Google Drive, Dropbox, etc.) or send files separately.",
+              },
+            ),
+          ],
+        },
+        {
+          title: "Content & Media",
+          intro:
+            "Who prepares the words, images and videos? Content preparation is a client responsibility unless a separate service is agreed.",
+          fields: [
+            F("copyWriter", "Who will write the website copy?", "select", {
+              important: true,
+              options: [
+                "Client",
+                "Developer (additional service)",
+                "Third-party copywriter",
+                "A mix",
+                NS,
+              ],
+            }),
+            F("imageProvider", "Who will provide images?", "select", {
+              options: [
+                "Client",
+                "Developer (stock / sourced)",
+                "Third-party photographer",
+                "A mix",
+                NS,
+              ],
+            }),
+            F("videoProvider", "Who will provide videos?", "select", {
+              options: [
+                "Client",
+                "Developer (additional service)",
+                "No video needed",
+                "A mix",
+                NS,
+              ],
+            }),
+            F("productDescs", "Are product descriptions available?", "select", {
+              options: YNP,
+            }),
+            F("testimonialsAvail", "Are testimonials available?", "select", {
+              options: YNP,
+            }),
+            F("caseStudies", "Are case studies available?", "select", {
+              options: YNP,
+            }),
+            F("photos", "Are professional photographs available?", "select", {
+              options: YNP,
+            }),
+            F("contentMig", "Is content migration required?", "select", {
+              options: YN,
+            }),
+            F("copyEditing", "Is copywriting or editing required?", "select", {
+              options: YN,
+            }),
+            F("stock", "Is stock imagery acceptable?", "select", {
+              options: ["Yes", "No", "For some pages only", NS],
+            }),
+            F(
+              "licensed",
+              "Are licensed fonts or images already available?",
+              "select",
+              { options: YNP },
+            ),
+            F("translation", "Is translation required?", "select", {
+              options: YN,
+            }),
+            F("contentDate", "Expected content delivery date", "date"),
+            F(
+              "sharedLinks",
+              "Shared folder links (Google Drive, Dropbox, etc.)",
+              "textarea",
+              { rows: 3, wide: true },
+            ),
+            {
+              type: "note",
+              text: "<b>Scope note:</b> unless agreed otherwise in writing, the client supplies final text, images and videos. Copywriting, photography and translation can be quoted separately.",
+            },
+          ],
+        },
+        {
+          title: "Integrations & Third-Party Services",
+          intro: "Which external tools should the website connect to?",
+          fields: [
+            {
+              type: "note",
+              tone: "warn",
+              html: "<b>Never enter passwords, secret API keys, private access tokens or payment credentials here.</b> If access is needed, it will be arranged later through a secure, appropriate method.",
+            },
+            F("integrationTypes", "Integration categories needed", "checks", {
+              custom: true,
+              options: [
+                "Payment gateways",
+                "CRM systems",
+                "Email marketing services",
+                "Transactional email",
+                "Booking systems",
+                "Maps",
+                "Social media",
+                "Analytics",
+                "Customer support tools",
+                "Inventory systems",
+                "Accounting tools",
+                "Authentication providers",
+                "External APIs",
+                "Existing databases",
+                "Automation platforms",
+              ],
+            }),
+            F("integrations", "Specific services", "repeater", {
+              addLabel: "Add integration",
+              itemLabel: "Integration",
+              sub: [
+                {
+                  k: "service",
+                  label: "Service name",
+                  type: "text",
+                  ph: "e.g. Stripe, HubSpot, Mailchimp",
+                },
+                { k: "purpose", label: "Purpose", type: "text" },
+                {
+                  k: "account",
+                  label: "Account status",
+                  type: "select",
+                  options: [
+                    "Account already exists",
+                    "Account needs to be created",
+                    NS,
+                  ],
+                },
+                { k: "docs", label: "Documentation URL", type: "url" },
+                {
+                  k: "access",
+                  label: "Access arrangement",
+                  type: "select",
+                  options: [
+                    "Client will grant access securely later",
+                    "Developer will set it up",
+                    NS,
+                  ],
+                  wide: true,
+                },
+              ],
+            }),
+            F("integrationNotes", "Other notes", "textarea", {
+              rows: 3,
+              wide: true,
+            }),
+          ],
+        },
+        {
+          title: "Technical Requirements & Hosting",
+          intro:
+            'If you have no preference, choose "Recommend the best option" and the developer will decide.',
+          fields: [
+            F("domainStatus", "Domain status", "select", {
+              important: true,
+              options: ["I own a domain", "I need to buy a domain", NS],
+            }),
+            F("registrar", "Domain registrar", "text", {
+              showIf: is("domainStatus", "I own a domain"),
+              ph: "e.g. Namecheap, GoDaddy",
+            }),
+            F("domainName", "Domain name", "text", {
+              showIf: is(
+                "domainStatus",
+                "I own a domain",
+                "I need to buy a domain",
+              ),
+              ph: "example.com",
+            }),
+            F("hostingStatus", "Hosting status", "select", {
+              important: true,
+              options: ["I have a hosting account", "I need hosting", NS],
+            }),
+            F("hostingProvider", "Hosting provider", "text", {
+              showIf: is("hostingStatus", "I have a hosting account"),
+            }),
+            F("hostingPref", "Preferred hosting environment", "select", {
+              options: [
+                REC,
+                "Shared hosting",
+                "VPS",
+                "Cloud platform (AWS / GCP / Azure)",
+                "Managed WordPress hosting",
+                "Static / JAMstack hosting",
+                "Other",
+              ],
+            }),
+            F("existingStack", "Existing technology stack", "text"),
+            F("preferredStack", "Preferred technology stack", "select", {
+              options: [
+                REC,
+                "HTML / CSS / JavaScript",
+                "WordPress",
+                "React / Next.js",
+                "Vue / Nuxt",
+                "PHP / Laravel",
+                "Node.js",
+                "Python / Django",
+                "Other",
+              ],
+            }),
+            F("cmsPref", "CMS preference", "select", {
+              options: [
+                REC,
+                "WordPress",
+                "Webflow",
+                "Shopify",
+                "Headless CMS",
+                "Custom admin panel",
+                "No CMS",
+              ],
+            }),
+            F("database", "Database requirements", "select", {
+              options: [
+                REC,
+                "None",
+                "MySQL / MariaDB",
+                "PostgreSQL",
+                "MongoDB",
+                "Firebase / Supabase",
+                "Other",
+              ],
+            }),
+            F("backend", "Backend requirements", "textarea", { rows: 3 }),
+            F("repo", "Existing code repository URL", "url", {
+              ph: "https://github.com/\u2026",
+            }),
+            F("migrationReq", "Migration requirements", "textarea", {
+              rows: 3,
+              showIf: (d) => isRedesign(d) || is("contentMig", "Yes")(d),
+            }),
+            F("emailHosting", "Email hosting requirements", "select", {
+              options: [
+                "Not needed",
+                "Already have email hosting",
+                "Need business email set up",
+                NS,
+              ],
+            }),
+            F("backups", "Backup requirements", "select", {
+              options: [REC, "None", "Weekly", "Daily", "Real-time"],
+            }),
+            F("security", "Security requirements", "checks", {
+              custom: true,
+              options: [
+                "SSL / HTTPS",
+                "Web application firewall",
+                "Two-factor authentication",
+                "Spam and bot protection",
+                "Malware scanning",
+                "Secure form handling",
+              ],
+            }),
+            F(
+              "scalability",
+              "Expected traffic or scalability needs",
+              "select",
+              {
+                options: [
+                  "Low, standard hosting is fine",
+                  "Moderate growth expected",
+                  "High or spiky traffic expected",
+                  NS,
+                ],
+              },
+            ),
+            F(
+              "supportExp",
+              "Maintenance and support expectations",
+              "textarea",
+              { rows: 3 },
+            ),
+            F("techHelp", "Do you need help with any of these?", "checks", {
+              options: [
+                "Domain purchase / transfer",
+                "DNS configuration",
+                "Deployment",
+                "Hosting setup",
+                "Business email setup",
+                "None of these",
+              ],
+            }),
+          ],
+        },
+        {
+          title: "SEO, Analytics & Performance",
+          intro:
+            "Search visibility, measurement and speed. Rankings and business results cannot be guaranteed.",
+          fields: [
+            {
+              type: "note",
+              text: "<b>No guarantees:</b> good SEO practice improves the chances of ranking well, but search rankings and business results depend on many factors outside the developer\u2019s control and cannot be guaranteed.",
+            },
+            F("seoReq", "SEO requirements", "select", {
+              options: [
+                "Basic on-page SEO",
+                "Advanced technical SEO",
+                "Ongoing SEO service (separate)",
+                "None",
+                NS,
+              ],
+            }),
+            F("rankings", "Existing search rankings (if known)", "textarea", {
+              rows: 2,
+            }),
+            F("gsc", "Google Search Console status", "select", {
+              options: ["Already set up", "Not set up", NS],
+            }),
+            F("analyticsSetup", "Existing analytics setup", "text"),
+            F("analyticsReq", "Analytics requirement", "checks", {
+              custom: true,
+              options: [
+                "Google Analytics 4",
+                "Google Tag Manager",
+                "Privacy-friendly analytics (Plausible, Matomo)",
+                "Meta Pixel",
+                "Heatmaps / session recording",
+                "None",
+                REC,
+              ],
+            }),
+            F("keywordResearch", "Keyword research required?", "select", {
+              options: YN,
+            }),
+            F("localSeo", "Local SEO required?", "select", { options: YN }),
+            F("metaSocial", "Metadata and social sharing previews", "select", {
+              options: YN,
+            }),
+            F("sitemapRobots", "Sitemap and robots.txt", "select", {
+              options: YN,
+            }),
+            F("structuredData", "Structured data (schema.org)", "select", {
+              options: YN,
+            }),
+            F("redirects", "Redirects from the existing website", "select", {
+              options: YN,
+              showIf: isRedesign,
+            }),
+            F("cwv", "Core Web Vitals and loading speed", "select", {
+              options: [
+                "Follow good practice",
+                "Aim for green Core Web Vitals scores",
+                NS,
+              ],
+            }),
+            F("imageOpt", "Image optimisation", "select", { options: YN }),
+            F("a11y", "Accessibility expectation", "select", {
+              options: [
+                "Basic best practice",
+                "WCAG 2.1 AA",
+                "WCAG 2.2 AA",
+                NS,
+              ],
+            }),
+            F("cookieConsent", "Cookie consent required?", "select", {
+              options: YN,
+            }),
+            F("convTracking", "Conversion tracking needed", "textarea", {
+              rows: 3,
+            }),
+            F("reporting", "Reporting requirements", "select", {
+              options: [
+                "None",
+                "Monthly report",
+                "Dashboard access",
+                "Quarterly review",
+                NS,
+              ],
+            }),
+          ],
+        },
+        {
+          title: "Budget & Commercial Details",
+          intro:
+            "Be as candid as you can; it helps recommend the right scope. Nothing entered here is a binding quote or agreement.",
+          fields: [
+            {
+              type: "note",
+              text: "<b>Not a quotation.</b> The budget you enter is a planning figure only. The developer will confirm the final price after reviewing the scope.",
+            },
+            F("currency", "Currency", "select", {
+              options: ["USD", "EUR", "GBP", "PKR", "Other"],
+            }),
+            F("currencyOther", "Currency code", "text", {
+              showIf: is("currency", "Other"),
+              ph: "e.g. AED",
+            }),
+            F("budgetTotal", "Total project budget", "number", {
+              min: 0,
+              money: true,
+              inTable: true,
+              important: true,
+            }),
+            F("budgetMin", "Minimum acceptable budget (optional)", "number", {
+              min: 0,
+              money: true,
+              inTable: true,
+            }),
+            F("budgetMax", "Maximum acceptable budget (optional)", "number", {
+              min: 0,
+              money: true,
+              inTable: true,
+            }),
+            F(
+              "devSuggest",
+              "Would you like the developer to suggest a budget after reviewing scope?",
+              "select",
+              {
+                options: [
+                  "Yes, please suggest a budget",
+                  "No, I have a fixed budget",
+                  "Either is fine",
+                ],
+              },
+            ),
+            F("flex", "Budget flexibility", "select", {
+              options: [
+                "Fixed, cannot exceed",
+                "Slightly flexible",
+                "Flexible for the right value",
+                NS,
+              ],
+            }),
+            F("pricingModel", "Preferred pricing model", "select", {
+              options: [
+                "Fixed price",
+                "Hourly",
+                "Milestone-based",
+                "Monthly retainer",
+                "Undecided",
+              ],
+            }),
+            F("budgetIncludes", "Does the budget include\u2026", "checks", {
+              options: [
+                "Design",
+                "Development",
+                "Content creation",
+                "Domain and hosting",
+                "Paid plugins, licences, APIs or subscriptions",
+                "Maintenance",
+                "Taxes",
+              ],
+              wide: true,
+              help: "Tick everything your budget is meant to cover.",
+            }),
+            F(
+              "thirdPartyFees",
+              "Do taxes or third-party fees need to be considered?",
+              "select",
+              { options: YN },
+            ),
+            F("payStructure", "Preferred payment structure", "select", {
+              options: [
+                "50% upfront / 50% on completion",
+                "30% / 40% / 30% across milestones",
+                "Equal milestone payments",
+                "Monthly instalments",
+                "Developer to propose",
+                NS,
+              ],
+            }),
+            F("deposit", "Deposit expectations", "text", {
+              ph: "e.g. 30% on signing",
+            }),
+            F("milestonePay", "Milestone payment preferences", "textarea", {
+              rows: 3,
+            }),
+            F(
+              "recurringBudget",
+              "Expected recurring monthly budget (maintenance, hosting, retainer)",
+              "number",
+              { min: 0, money: true, inTable: true },
+            ),
+            F("futureBudget", "Optional future-phase budget", "number", {
+              min: 0,
+              money: true,
+              inTable: true,
+            }),
+            F(
+              "procurement",
+              "Procurement or purchase-approval requirements",
+              "textarea",
+              { rows: 3 },
+            ),
+            F(
+              "budgetNotes",
+              "Budget notes (constraints and priorities)",
+              "textarea",
+              { wide: true },
+            ),
+          ],
+        },
+        {
+          title: "Timeline & Milestones",
+          intro: "When do you need this and what could affect delivery?",
+          fields: [
+            {
+              type: "note",
+              text: "Timelines depend on scope, how quickly feedback is returned, content delivery, integrations and approvals. Dates here are targets, not commitments.",
+            },
+            F("startDate", "Desired project start date", "date"),
+            F("launchDate", "Desired launch date", "date", { important: true }),
+            F("deadlineType", "Is the deadline fixed or flexible?", "select", {
+              options: ["Fixed", "Flexible", NS],
+            }),
+            F("deadlineReason", "Reason for the deadline", "text", {
+              showIf: is("deadlineType", "Fixed"),
+            }),
+            F(
+              "eventDep",
+              "Upcoming event or business launch dependency",
+              "text",
+            ),
+            F("designApproval", "Expected design approval date", "date"),
+            F("feedbackTurn", "Expected feedback turnaround", "select", {
+              options: [
+                "Within 24 hours",
+                "2\u20133 business days",
+                "About a week",
+                NS,
+              ],
+            }),
+            F("meetAvail", "Client availability for meetings", "textarea", {
+              rows: 3,
+            }),
+            F("milestonePrefs", "Milestone preferences", "checks", {
+              custom: true,
+              options: [
+                "Design approval",
+                "Content delivery",
+                "Development preview",
+                "Client testing / UAT",
+                "Launch",
+                "Post-launch review",
+              ],
+            }),
+            F(
+              "timelineDeps",
+              "Dependencies that could delay delivery",
+              "textarea",
+              { rows: 3 },
+            ),
+            F("blackout", "Blackout dates or unavailable periods", "textarea", {
+              rows: 3,
+            }),
+          ],
+        },
+        {
+          title: "Communication & Project Management",
+          intro: "How we will stay in touch and make decisions.",
+          fields: [
+            F("channels", "Preferred communication channels", "checks", {
+              custom: true,
+              options: [
+                "Email",
+                "WhatsApp",
+                "Slack",
+                "Microsoft Teams",
+                "Phone call",
+                "Video call",
+              ],
+            }),
+            F("meetFreq", "Preferred meeting frequency", "select", {
+              options: [
+                "Weekly",
+                "Every two weeks",
+                "At milestones only",
+                "As needed",
+              ],
+            }),
+            F("meetTimes", "Preferred meeting times and timezone", "text"),
+            F("poc", "Primary point of contact", "text"),
+            F("backupContact", "Backup contact", "text"),
+            F(
+              "approverCount",
+              "Number of stakeholders who approve work",
+              "number",
+              { min: 0 },
+            ),
+            F("finalApprover", "Who gives final approval?", "text", {
+              important: true,
+            }),
+            F("finalAcceptance", "Who will provide final acceptance?", "text"),
+            F("pmTools", "Preferred project management tool", "select", {
+              options: [
+                "Trello",
+                "Asana",
+                "Notion",
+                "ClickUp",
+                "Jira",
+                "Basecamp",
+                "No preference; developer\u2019s choice",
+                "Other",
+              ],
+            }),
+            F("feedbackMethod", "Preferred feedback method", "select", {
+              options: [
+                "Written comments on a shared document",
+                "On-page annotation tools",
+                "Email",
+                "Video call review",
+                "Mixed",
+              ],
+            }),
+            F("responseTimes", "Expected response times", "select", {
+              options: [
+                "Same day",
+                "Within 24 hours",
+                "Within 2\u20133 business days",
+                NS,
+              ],
+            }),
+            F("reportingExp", "Reporting expectations", "select", {
+              options: [
+                "None",
+                "Weekly progress update",
+                "Milestone updates",
+                "Shared task board",
+              ],
+            }),
+            F("urgent", "How should urgent issues be handled?", "textarea", {
+              rows: 3,
+              wide: true,
+            }),
+          ],
+        },
+        {
+          title: "Legal, Privacy & Compliance",
+          intro: "Requirements the website may need to respect.",
+          fields: [
+            {
+              type: "note",
+              tone: "warn",
+              html: "<b>Not legal advice.</b> Collecting these requirements is not legal advice. Unless a separate service is agreed, the client is responsible for supplying or obtaining appropriate legal documents.",
+            },
+            F("legalDocs", "Which of these apply?", "checks", {
+              custom: true,
+              options: [
+                "Privacy policy",
+                "Terms and conditions",
+                "Cookie policy and consent banner",
+                "GDPR",
+                "CCPA / US state privacy laws",
+                "Accessibility statement",
+                "E-commerce refund policy",
+                "Shipping policy",
+                "Required disclaimers",
+              ],
+            }),
+            F("legalSupplier", "Who will supply legal documents?", "select", {
+              options: [
+                "Client",
+                "Client\u2019s lawyer",
+                "Developer to provide a template (not legal advice)",
+                NS,
+              ],
+            }),
+            F(
+              "userData",
+              "What user data will the website collect or process?",
+              "checks",
+              {
+                custom: true,
+                options: [
+                  "Names and email addresses",
+                  "Payment information",
+                  "Health information",
+                  "Children\u2019s data",
+                  "Location data",
+                  "Uploaded files",
+                  "Analytics / cookies",
+                  "None",
+                ],
+              },
+            ),
+            F(
+              "industryCompliance",
+              "Industry-specific compliance requirements",
+              "textarea",
+              { rows: 3, ph: "e.g. HIPAA, PCI DSS, financial regulation" },
+            ),
+            F(
+              "copyright",
+              "Copyright ownership and licensing considerations",
+              "textarea",
+              { rows: 3 },
+            ),
+            F(
+              "contentOwner",
+              "Ownership of client-provided content",
+              "select",
+              {
+                options: [
+                  "Client owns all content they provide",
+                  "Mixed ownership; details to follow",
+                  NS,
+                ],
+              },
+            ),
+            F("disclaimers", "Required disclaimers", "textarea", { rows: 3 }),
+            F(
+              "retention",
+              "Data retention and deletion requirements",
+              "textarea",
+              { rows: 3 },
+            ),
+            F("regulatory", "Other regulatory constraints", "textarea", {
+              rows: 3,
+            }),
+          ],
+        },
+        {
+          title: "Additional Requirements & Special Instructions",
+          intro: "Anything we have not asked about.",
+          fields: [
+            F(
+              "anythingElse",
+              "Anything else you want the developer to know?",
+              "textarea",
+              { rows: 5 },
+            ),
+            F("mustHave", "Features that must not be omitted", "textarea"),
+            F("limitations", "Known technical limitations", "textarea"),
+            F("concerns", "Concerns or risks", "textarea"),
+            F(
+              "pastExp",
+              "Past negative experiences with websites or developers",
+              "textarea",
+              { help: "This helps us avoid repeating them." },
+            ),
+            F("futureExpansion", "Future expansion plans", "textarea"),
+            F("postLaunch", "Expected post-launch support", "select", {
+              options: [
+                "None",
+                "A short bug-fix warranty period",
+                "Monthly maintenance retainer",
+                "Ongoing development",
+                NS,
+              ],
+            }),
+            F("futurePhases", "Potential future phases", "textarea"),
+            F("otherNotes", "Other notes", "textarea"),
+          ],
+        },
+        {
+          title: "Final Review & Confirmation",
+          review: true,
+          intro:
+            "Check the summary below. Use Edit to correct anything, then confirm and generate your project brief.",
+          fields: [
+            F(
+              "conf1",
+              "I confirm that the information provided is accurate to the best of my knowledge.",
+              "check",
+              { required: true },
+            ),
+            F(
+              "conf2",
+              "I understand that the final scope, pricing, and timeline will be confirmed after review.",
+              "check",
+              { required: true },
+            ),
+            F(
+              "conf3",
+              "I understand that this document is a requirements brief and not a signed contract or final project quotation.",
+              "check",
+              { required: true },
+            ),
+            F("sigName", "Typed name", "text", {
+              required: true,
+              help: "A typed name is a record of who completed this form. It is not a verified electronic signature.",
+            }),
+            F("sigDate", "Date", "date", { required: true }),
+          ],
+        },
+      ];
+
+      const DEV_FIELDS = [
+        F("devRevision", "Document revision number", "number", { min: 1 }),
+        F("devStatus", "Document status", "select", {
+          options: [
+            CONFIG.defaultStatus,
+            "Under developer review",
+            "Clarification requested from client",
+            "Scope confirmed",
+            "Quotation issued",
+          ],
+        }),
+        F(
+          "devComplexity",
+          "Overall complexity (developer assessment)",
+          "select",
+          { options: ["Low", "Medium", "High", "Needs discovery first"] },
+        ),
+        F("devEstimate", "Items requiring estimation", "textarea", {
+          rows: 3,
+          wide: true,
+        }),
+        F("devRecs", "Developer recommendations", "textarea", {
+          rows: 4,
+          wide: true,
+        }),
+        F("devAssumptions", "Additional assumptions", "textarea", {
+          rows: 3,
+          wide: true,
+        }),
+        F("devOutOfScope", "Additional out-of-scope items", "textarea", {
+          rows: 3,
+          wide: true,
+        }),
+        F("devRisks", "Risks and dependencies identified", "textarea", {
+          rows: 3,
+          wide: true,
+        }),
+        F("devQuestions", "Clarifying questions for the client", "textarea", {
+          rows: 3,
+          wide: true,
+        }),
+      ];
+
+      /* assign ids to notes/groups, build lookup map */
+      let uid = 0;
+      const FMAP = {};
+      (function prep(list) {
+        list.forEach((f) => {
+          if (!f.id) f.id = "_n" + ++uid;
+          FMAP[f.id] = f;
+          if (f.type === "group") prep(f.fields);
+        });
+      })([].concat(...SECTIONS.map((s) => s.fields), DEV_FIELDS));
+
+      /* =====================================================================
+   STATE & HELPERS
+   ===================================================================== */
+      const $ = (s, r) => (r || document).querySelector(s);
+      const esc = (s) =>
+        String(s == null ? "" : s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      const todayISO = () => {
+        const d = new Date();
+        return (
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0")
+        );
+      };
+      const fmtDate = (iso) => {
+        if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso || "";
+        const d = new Date(iso + "T00:00:00");
+        return isNaN(d)
+          ? iso
+          : d.toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            });
+      };
+      const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      const URLRX =
+        /^(https?:\/\/)?(localhost|([a-z0-9\u00a1-\uffff-]+\.)+[a-z\u00a1-\uffff]{2,})(:\d+)?([\/?#]\S*)?$/i;
+      const PHONE = /^[+()\-\s\d.]{6,24}$/;
+
+      let S = {
+        data: {},
+        step: 0,
+        meta: { refId: "", createdAt: "" },
+        errors: {},
+        shown: false,
+      };
+      const root = () => $("#stepRoot");
+
+      function defaults() {
+        const d = {};
+        d.pages = DEFAULT_PAGES.map((n) => ({
+          name: n,
+          custom: false,
+          include: false,
+          priority: "",
+          content: "",
+          copy: "",
+          notes: "",
+        }));
+        d.inquiryDate = todayISO();
+        d.sigDate = todayISO();
+        d.devRevision = "1";
+        d.devStatus = CONFIG.defaultStatus;
+        [
+          "competitors",
+          "socials",
+          "customFeatures",
+          "inspiration",
+          "integrations",
+        ].forEach((k) => {
+          d[k] = [blankRow(FMAP[k])];
+        });
+        return d;
+      }
+      function blankRow(f) {
+        const r = {};
+        f.sub.forEach((s) => {
+          r[s.k] = "";
+        });
+        return r;
+      }
+
+      function leaves(fields, out) {
+        out = out || [];
+        fields.forEach((f) => {
+          if (f.showIf && !f.showIf(S.data)) return;
+          if (f.type === "group") leaves(f.fields, out);
+          else if (f.type !== "note") out.push(f);
+        });
+        return out;
+      }
+      const isVisible = (f) => !f.showIf || f.showIf(S.data);
+
+      function isAnswered(f) {
+        const v = S.data[f.id];
+        switch (f.type) {
+          case "checks":
+            return Array.isArray(v) && v.length > 0;
+          case "check":
+            return !!v;
+          case "repeater":
+            return (
+              Array.isArray(v) &&
+              v.some((r) => f.sub.some((s) => String(r[s.k] || "").trim()))
+            );
+          case "pages":
+            return Array.isArray(v) && v.some((p) => p.include);
+          default:
+            return v != null && String(v).trim() !== "";
+        }
+      }
+
+      function sectionStats(i) {
+        const l = leaves(SECTIONS[i].fields);
+        const total = l.length,
+          answered = l.filter(isAnswered).length;
+        return {
+          total,
+          answered,
+          pct: total ? Math.round((answered / total) * 100) : 100,
+        };
+      }
+      function overall() {
+        let a = 0,
+          t = 0;
+        SECTIONS.forEach((s, i) => {
+          const st = sectionStats(i);
+          a += st.answered;
+          t += st.total;
+        });
+        return t ? Math.round((a / t) * 100) : 0;
+      }
+
+      /* =====================================================================
+   VALIDATION
+   ===================================================================== */
+      function validateField(f) {
+        if (!isVisible(f)) return "";
+        const v = S.data[f.id];
+        const empty = !isAnswered(f);
+        if (f.required && empty)
+          return f.type === "check"
+            ? "Please confirm to continue."
+            : "This field is required.";
+        if (f.type === "repeater") {
+          for (const r of v || [])
+            for (const s of f.sub)
+              if (
+                s.type === "url" &&
+                r[s.k] &&
+                !URLRX.test(String(r[s.k]).trim())
+              )
+                return "One of the web addresses looks invalid.";
+          return "";
+        }
+        if (empty) return "";
+        const sv = String(v).trim();
+        if (f.type === "email" && !EMAIL.test(sv))
+          return "Enter a valid email address.";
+        if (f.type === "url" && !URLRX.test(sv))
+          return "Enter a valid web address, e.g. https://example.com";
+        if (f.type === "tel" && !PHONE.test(sv))
+          return "Enter a valid phone number (digits, +, spaces, dashes).";
+        if (f.type === "number") {
+          const n = Number(sv);
+          if (!isFinite(n) || n < 0) return "Enter a number that is 0 or more.";
+          if (f.id === "devRevision" && n < 1)
+            return "Revision must be 1 or more.";
+        }
+        if (
+          f.id === "budgetMax" &&
+          S.data.budgetMin &&
+          Number(sv) < Number(S.data.budgetMin)
+        )
+          return "Maximum cannot be lower than the minimum.";
+        if (
+          f.id === "budgetMin" &&
+          S.data.budgetMax &&
+          Number(sv) > Number(S.data.budgetMax)
+        )
+          return "Minimum cannot be higher than the maximum.";
+        if (f.id === "launchDate" && S.data.startDate && sv < S.data.startDate)
+          return "Launch date is earlier than the start date.";
+        return "";
+      }
+      function validateAll() {
+        const out = [];
+        SECTIONS.forEach((s, i) =>
+          leaves(s.fields).forEach((f) => {
+            const m = validateField(f);
+            if (m) out.push({ f, step: i, msg: m });
+          }),
+        );
+        return out;
+      }
+      function showFieldError(f, msg) {
+        const w = root().querySelector(`[data-fid="${f.id}"]`);
+        if (!w) return;
+        w.classList.toggle("bad", !!msg);
+        const e = w.querySelector(".err");
+        if (e) e.textContent = msg || "";
+        const inp = w.querySelector("input,select,textarea");
+        if (inp) inp.setAttribute("aria-invalid", msg ? "true" : "false");
+      }
+      function validateStep(i, show) {
+        let n = 0;
+        leaves(SECTIONS[i].fields).forEach((f) => {
+          const m = validateField(f);
+          if (m) n++;
+          if (show) showFieldError(f, m);
+        });
+        return n;
+      }
+
+      /* =====================================================================
+   RENDERING THE FORM
+   ===================================================================== */
+      function renderControl(f) {
+        const v = S.data[f.id];
+        const id = "f_" + f.id;
+        const desc = `aria-describedby="${id}_e${f.help ? " " + id + "_h" : ""}"`;
+        const base = `id="${id}" data-k="${f.id}" ${desc}${f.required ? ' aria-required="true"' : ""}`;
+        switch (f.type) {
+          case "textarea":
+            return `<textarea ${base} rows="${f.rows || 4}" placeholder="${esc(f.ph || "")}">${esc(v || "")}</textarea>`;
+          case "select":
+            return `<select ${base}><option value="">Select\u2026</option>${f.options.map((o) => `<option value="${esc(o)}"${v === o ? " selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
+          case "number":
+            return `<input type="number" inputmode="decimal" min="${f.min || 0}" step="any" ${base} value="${esc(v || "")}" placeholder="${esc(f.ph || "")}">`;
+          case "checks": {
+            const custom = (Array.isArray(v) ? v : []).filter(
+              (x) => !f.options.includes(x),
+            );
+            return (
+              `<div class="opts" role="group" aria-labelledby="${id}_l">${f.options.map((o) => `<label class="opt"><input type="checkbox" data-k="${f.id}" data-multi="1" value="${esc(o)}"${Array.isArray(v) && v.includes(o) ? " checked" : ""}><span>${esc(o)}</span></label>`).join("")}</div>` +
+              (f.custom
+                ? `<div class="chips">${custom.map((c) => `<span class="chip">${esc(c)}<button type="button" data-act="rm-custom" data-k="${f.id}" data-v="${esc(c)}" aria-label="Remove ${esc(c)}">\u00d7</button></span>`).join("")}</div><div class="addrow"><input type="text" data-cin="${f.id}" placeholder="Add your own\u2026" aria-label="Add custom option for ${esc(f.label)}"><button type="button" class="btn sm" data-act="add-custom" data-k="${f.id}">Add</button></div>`
+                : "")
+            );
+          }
+          case "check":
+            return `<label class="opt"><input type="checkbox" ${base} data-single="1"${v ? " checked" : ""}><span>${esc(f.label)}${f.required ? '<span class="req" aria-hidden="true">*</span>' : ""}</span></label>`;
+          case "repeater":
+            return renderRepeater(f);
+          case "pages":
+            return renderPages();
+          default:
+            return `<input type="${f.type}" ${base} value="${esc(v || "")}" placeholder="${esc(f.ph || "")}"${f.ac ? ` autocomplete="${f.ac}"` : ""}${f.type === "url" || f.type === "email" ? ' autocapitalize="off" spellcheck="false"' : ""}>`;
+        }
+      }
+
+      function renderRepeater(f) {
+        const rows = S.data[f.id] || [];
+        return `<div class="rep">${rows
+          .map(
+            (r, i) =>
+              `<div class="rep-item"><div class="rep-top"><span>${esc(f.itemLabel || "Entry")} ${i + 1}</span><button type="button" class="btn sm danger" data-act="rm-row" data-k="${f.id}" data-i="${i}">Remove</button></div><div class="grid">${f.sub
+                .map((s) => {
+                  const rid = `r_${f.id}_${i}_${s.k}`,
+                    val = r[s.k] || "";
+                  let c;
+                  if (s.type === "select")
+                    c = `<select id="${rid}" data-rk="${f.id}" data-ri="${i}" data-rf="${s.k}"><option value="">Select\u2026</option>${s.options.map((o) => `<option value="${esc(o)}"${val === o ? " selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
+                  else if (s.type === "textarea")
+                    c = `<textarea id="${rid}" rows="3" data-rk="${f.id}" data-ri="${i}" data-rf="${s.k}">${esc(val)}</textarea>`;
+                  else
+                    c = `<input id="${rid}" type="${s.type === "url" ? "url" : "text"}" data-rk="${f.id}" data-ri="${i}" data-rf="${s.k}" value="${esc(val)}" placeholder="${esc(s.ph || "")}"${s.type === "url" ? ' autocapitalize="off" spellcheck="false"' : ""}>`;
+                  return `<div class="${s.wide ? "wide" : ""}"><label class="sublab" for="${rid}">${esc(s.label)}</label>${c}</div>`;
+                })
+                .join("")}</div></div>`,
+          )
+          .join(
+            "",
+          )}<div><button type="button" class="btn sm" data-act="add-row" data-k="${f.id}">+ ${esc(f.addLabel || "Add")}</button></div></div>`;
+      }
+
+      function renderPages() {
+        const rows = S.data.pages || [];
+        const sel = (opts, val, pf, i) =>
+          `<select data-pk="${i}" data-pf="${pf}"><option value="">Select\u2026</option>${opts.map((o) => `<option value="${esc(o)}"${val === o ? " selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
+        return `<div class="pages">${rows
+          .map(
+            (
+              p,
+              i,
+            ) => `<div class="page-row${p.include ? " on" : ""}" data-row="${i}"><div class="top">${
+              p.custom
+                ? `<input type="checkbox" data-pk="${i}" data-pf="include" aria-label="Include ${esc(p.name || "custom page")}"${p.include ? " checked" : ""} style="accent-color:#8c1c24"><input class="pname" type="text" data-pk="${i}" data-pf="name" value="${esc(p.name)}" placeholder="Custom page name" aria-label="Custom page name"><button type="button" class="btn sm danger" data-act="rm-page" data-i="${i}">Remove</button>`
+                : `<label class="opt"><input type="checkbox" data-pk="${i}" data-pf="include"${p.include ? " checked" : ""}><span>${esc(p.name)}</span></label>`
+            }</div>
+  <div class="pc"><div><label>Priority</label>${sel(PAGE_PRIORITY, p.priority, "priority", i)}</div><div><label>Does content exist?</label>${sel(PAGE_CONTENT, p.content, "content", i)}</div><div><label>Copywriting</label>${sel(PAGE_COPY, p.copy, "copy", i)}</div><div class="full"><label>Page-specific notes</label><input type="text" data-pk="${i}" data-pf="notes" value="${esc(p.notes)}"></div></div></div>`,
+          )
+          .join("")}
+  <div class="addrow"><input type="text" id="newPage" placeholder="Add a custom page, e.g. Gift cards, Events" aria-label="Custom page name"><button type="button" class="btn sm" data-act="add-page">Add page</button></div></div>`;
+      }
+
+      function renderField(f) {
+        const hid = isVisible(f) ? "" : " hidden";
+        if (f.type === "group")
+          return `<fieldset class="group wide" data-fid="${f.id}"${hid}><legend>${esc(f.title)}</legend>${f.intro ? `<p class="help" style="margin:0 0 14px">${esc(f.intro)}</p>` : ""}<div class="grid">${f.fields.map(renderField).join("")}</div></fieldset>`;
+        if (f.type === "note")
+          return `<div class="note wide ${f.tone || ""}" data-fid="${f.id}"${hid}>${f.html || esc(f.text)}</div>`;
+        const wide =
+          f.wide ||
+          ["textarea", "checks", "repeater", "pages", "check"].includes(f.type);
+        const id = "f_" + f.id;
+        const lab =
+          f.type === "check"
+            ? ""
+            : ["checks", "repeater", "pages"].includes(f.type)
+              ? `<div class="lab" id="${id}_l">${esc(f.label)}${f.required ? '<span class="req" aria-hidden="true">*</span>' : ""}</div>`
+              : `<label for="${id}">${esc(f.label)}${f.required ? '<span class="req" aria-hidden="true">*</span>' : ""}</label>`;
+        const helpTxt = f.help
+          ? `<p class="help" id="${id}_h">${esc(f.help)}</p>`
+          : "";
+        const err = `<div class="err" id="${id}_e" role="alert"></div>`;
+        return `<div class="field${wide ? " wide" : ""}" data-fid="${f.id}"${hid}>${lab}${f.type === "repeater" ? helpTxt : ""}${renderControl(f)}${f.type !== "repeater" ? helpTxt : ""}${err}</div>`;
+      }
+
+      function applyVisibility() {
+        (function walk(list) {
+          list.forEach((f) => {
+            const el = root().querySelector(`[data-fid="${f.id}"]`);
+            if (el) el.hidden = !isVisible(f);
+            if (f.type === "group") walk(f.fields);
+          });
+        })(
+          [].concat(
+            ...(SECTIONS[S.step].review
+              ? [SECTIONS[S.step].fields, DEV_FIELDS]
+              : [SECTIONS[S.step].fields]),
+          ),
+        );
+      }
+
+      function refreshField(id) {
+        const f = FMAP[id],
+          el = root().querySelector(`[data-fid="${id}"]`);
+        if (!f || !el) return;
+        const t = document.createElement("div");
+        t.innerHTML = renderField(f);
+        el.replaceWith(t.firstElementChild);
+      }
+
+      function renderStep() {
+        const sec = SECTIONS[S.step];
+        let html = `<section class="card" aria-labelledby="stepTitle"><div class="sec-head"><p class="eyebrow">Section ${S.step + 1} of ${SECTIONS.length}</p><h2 id="stepTitle" tabindex="-1">${esc(sec.title)}</h2><p class="intro">${esc(sec.intro)}</p></div>`;
+        html += sec.review
+          ? '<div id="reviewRoot"></div>'
+          : `<div class="grid">${sec.fields.map(renderField).join("")}</div>`;
+        html += "</section>";
+        root().innerHTML = html;
+        if (sec.review) renderReview();
+        updateChrome();
+        if (!sec.review && S.shown) validateStep(S.step, true);
+      }
+
+      function updateChrome() {
+        const p = overall();
+        $("#barFill").style.width = p + "%";
+        $("#bar").setAttribute("aria-valuenow", p);
+        $("#pct").textContent = p + "%";
+        $("#ringFill").setAttribute("stroke-dasharray", p + " 100");
+        $("#stepLabel").innerHTML =
+          `Step ${S.step + 1} of ${SECTIONS.length} <small>\u00b7 ${esc(SECTIONS[S.step].title)}</small>`;
+        $("#steps").innerHTML = SECTIONS.map((s, i) => {
+          const st = sectionStats(i);
+          return `<li class="${st.pct === 100 ? "done" : ""}"><button type="button" data-go="${i}"${i === S.step ? ' aria-current="step"' : ""}><span class="n">${String(i + 1).padStart(2, "0")}</span><span>${esc(s.title)}</span><span class="p">${st.pct}%</span></button></li>`;
+        }).join("");
+        $("#segs").innerHTML = SECTIONS.map((s, i) => {
+          const st = sectionStats(i);
+          return `<button type="button" data-go="${i}" class="${st.pct === 100 ? "full" : st.pct > 0 ? "part" : ""}"${i === S.step ? ' aria-current="step"' : ""} aria-label="Go to section ${i + 1}: ${esc(s.title)} (${st.pct}% complete)" title="${esc(s.title)}"></button>`;
+        }).join("");
+        $("#prevBtn").disabled = S.step === 0;
+        const last = S.step === SECTIONS.length - 1;
+        $("#nextBtn").hidden = last;
+        $("#navMid").textContent = last
+          ? ""
+          : `${sectionStats(S.step).pct}% of this section complete`;
+      }
+
+      function go(i, opts) {
+        i = Math.max(0, Math.min(SECTIONS.length - 1, i));
+        S.step = i;
+        renderStep();
+        scheduleSave();
+        $("#side").classList.remove("open");
+        $("#menuBtn").setAttribute("aria-expanded", "false");
+        if (!opts || !opts.noScroll) {
+          window.scrollTo({ top: 0 });
+          const h = $("#stepTitle");
+          if (h) h.focus({ preventScroll: true });
+        }
+      }
+
+      /* =====================================================================
+   EVENTS
+   ===================================================================== */
+      function onChanged(id) {
+        S.errors[id] && delete S.errors[id];
+        const f = FMAP[id];
+        if (f) showFieldError(f, "");
+        applyVisibility();
+        updateChrome();
+        scheduleSave();
+      }
+
+      document.addEventListener("input", (e) => {
+        const t = e.target;
+        if (t.type === "checkbox" || t.type === "radio" || t.type === "file")
+          return;
+        if (t.dataset.k) {
+          S.data[t.dataset.k] = t.value;
+          onChanged(t.dataset.k);
+        } else if (t.dataset.rk) {
+          S.data[t.dataset.rk][+t.dataset.ri][t.dataset.rf] = t.value;
+          scheduleSave();
+          updateChrome();
+        } else if (t.dataset.pk !== undefined) {
+          S.data.pages[+t.dataset.pk][t.dataset.pf] = t.value;
+          scheduleSave();
+        }
+      });
+      document.addEventListener("change", (e) => {
+        const t = e.target;
+        if (t.dataset.k && t.dataset.multi) {
+          const arr = Array.isArray(S.data[t.dataset.k])
+            ? S.data[t.dataset.k].slice()
+            : [];
+          const i = arr.indexOf(t.value);
+          if (t.checked && i < 0) arr.push(t.value);
+          else if (!t.checked && i >= 0) arr.splice(i, 1);
+          S.data[t.dataset.k] = arr;
+          onChanged(t.dataset.k);
+        } else if (t.dataset.k && t.dataset.single) {
+          S.data[t.dataset.k] = t.checked;
+          onChanged(t.dataset.k);
+        } else if (t.dataset.pk !== undefined && t.dataset.pf === "include") {
+          const p = S.data.pages[+t.dataset.pk];
+          p.include = t.checked;
+          if (t.checked && !p.priority) {
+            p.priority = "Required";
+            const row = t.closest(".page-row");
+            const s = row.querySelector("select[data-pf=priority]");
+            if (s) s.value = "Required";
+          }
+          t.closest(".page-row").classList.toggle("on", t.checked);
+          applyVisibility();
+          updateChrome();
+          scheduleSave();
+        }
+      });
+      document.addEventListener("focusout", (e) => {
+        const t = e.target;
+        if (t.dataset && t.dataset.k && FMAP[t.dataset.k] && !t.dataset.multi)
+          showFieldError(FMAP[t.dataset.k], validateField(FMAP[t.dataset.k]));
+        else if (t.dataset && t.dataset.rk)
+          showFieldError(FMAP[t.dataset.rk], validateField(FMAP[t.dataset.rk]));
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && e.target.matches("input")) {
+          if (e.target.dataset.cin) {
+            e.preventDefault();
+            addCustom(e.target.dataset.cin);
+          } else if (e.target.id === "newPage") {
+            e.preventDefault();
+            addPage();
+          } else e.preventDefault();
+        }
+      });
+
+      function addCustom(id) {
+        const inp = root().querySelector(`[data-cin="${id}"]`);
+        const v = (inp.value || "").trim();
+        if (!v) return;
+        const arr = Array.isArray(S.data[id]) ? S.data[id] : [];
+        if (!arr.some((x) => x.toLowerCase() === v.toLowerCase())) arr.push(v);
+        S.data[id] = arr;
+        refreshField(id);
+        onChanged(id);
+        const n = root().querySelector(`[data-cin="${id}"]`);
+        if (n) n.focus();
+      }
+      function addPage() {
+        const inp = $("#newPage");
+        const v = (inp.value || "").trim();
+        if (!v) {
+          toast("Type a page name first.");
+          inp.focus();
+          return;
+        }
+        S.data.pages.push({
+          name: v,
+          custom: true,
+          include: true,
+          priority: "Required",
+          content: "",
+          copy: "",
+          notes: "",
+        });
+        refreshField("pages");
+        onChanged("pages");
+        const n = $("#newPage");
+        if (n) n.focus();
+      }
+
+      document.addEventListener("click", async (e) => {
+        const g = e.target.closest("[data-go]");
+        if (g) {
+          go(+g.dataset.go);
+          return;
+        }
+        const a = e.target.closest("[data-act]");
+        if (!a) return;
+        const act = a.dataset.act,
+          k = a.dataset.k;
+        switch (act) {
+          case "add-custom":
+            addCustom(k);
+            break;
+          case "rm-custom":
+            S.data[k] = (S.data[k] || []).filter((x) => x !== a.dataset.v);
+            refreshField(k);
+            onChanged(k);
+            break;
+          case "add-row":
+            S.data[k].push(blankRow(FMAP[k]));
+            refreshField(k);
+            onChanged(k);
+            break;
+          case "rm-row":
+            S.data[k].splice(+a.dataset.i, 1);
+            if (!S.data[k].length) S.data[k].push(blankRow(FMAP[k]));
+            refreshField(k);
+            onChanged(k);
+            break;
+          case "add-page":
+            addPage();
+            break;
+          case "rm-page":
+            S.data.pages.splice(+a.dataset.i, 1);
+            refreshField("pages");
+            onChanged("pages");
+            break;
+          case "save":
+            save(true);
+            break;
+          case "export-json":
+            exportJSON();
+            break;
+          case "import-json":
+            $("#importFile").click();
+            break;
+          case "reset":
+            if (
+              await ask(
+                "Reset the form?",
+                "All answers will be cleared from this form and from the saved draft in this browser. Download a JSON export first if you may need them again.",
+                "Reset form",
+              )
+            ) {
+              resetAll();
+              toast("Form reset.");
+            }
+            break;
+          case "erase":
+            if (
+              await ask(
+                "Erase saved draft?",
+                "The draft stored in this browser will be deleted. Answers currently on screen stay until you reset or close the page.",
+                "Erase draft",
+              )
+            ) {
+              try {
+                localStorage.removeItem(CONFIG.storageKey);
+              } catch (_) {}
+              setSaveState("Saved draft erased from this browser.");
+              toast("Saved draft erased.");
+            }
+            break;
+          case "gen-pdf":
+            generatePDF();
+            break;
+          case "print":
+            window.print();
+            break;
+          case "clear-after":
+            if (
+              await ask(
+                "Erase draft and clear the form?",
+                "Use this on a shared computer after downloading your document. All answers are removed from the browser.",
+                "Erase everything",
+              )
+            ) {
+              resetAll();
+              toast("Draft erased.");
+            }
+            break;
+        }
+      });
+      $("#prevBtn").addEventListener("click", () => go(S.step - 1));
+      $("#nextBtn").addEventListener("click", () => {
+        S.shown = true;
+        const n = validateStep(S.step, true);
+        if (n) {
+          toast(
+            `${n} item${n > 1 ? "s" : ""} need attention on this page. You can continue and come back.`,
+          );
+          const first = root().querySelector(".field.bad");
+          if (first)
+            first.scrollIntoView({ block: "center", behavior: "smooth" });
+          if (n && S.step === 0) {
+          }
+        }
+        go(S.step + 1);
+      });
+      $("#menuBtn").addEventListener("click", () => {
+        const o = $("#side").classList.toggle("open");
+        $("#menuBtn").setAttribute("aria-expanded", String(o));
+      });
+      $("#importFile").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const rd = new FileReader();
+        rd.onload = () => {
+          try {
+            importJSON(JSON.parse(rd.result));
+          } catch (_) {
+            toast("That file could not be read as a project data export.");
+          }
+          e.target.value = "";
+        };
+        rd.readAsText(file);
+      });
+
+      /* dialog / toast */
+      function ask(title, msg, okLabel) {
+        return new Promise((res) => {
+          const d = $("#dlg");
+          $("#dlgT").textContent = title;
+          $("#dlgM").textContent = msg;
+          $("#dlgOk").textContent = okLabel || "Confirm";
+          if (typeof d.showModal !== "function") {
+            res(window.confirm(title + "\n\n" + msg));
+            return;
+          }
+          d.returnValue = "";
+          d.addEventListener("close", () => res(d.returnValue === "ok"), {
+            once: true,
+          });
+          d.showModal();
+        });
+      }
+      let toastTimer;
+      function toast(msg, kind) {
+        const t = $("#toast");
+        t.textContent = msg;
+        t.className = "show" + (kind === "ok" ? " ok" : "");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          t.className = "";
+        }, 4200);
+      }
+
+      /* =====================================================================
+   PERSISTENCE
+   ===================================================================== */
+      let saveTimer;
+      function setSaveState(msg) {
+        $("#saveState").textContent = msg;
+      }
+      function scheduleSave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => save(false), 700);
+        setSaveState("Unsaved changes\u2026");
+      }
+      function ensureMeta() {
+        if (!S.meta.createdAt) S.meta.createdAt = todayISO();
+        if (!S.meta.refId)
+          S.meta.refId =
+            CONFIG.docPrefix +
+            "-" +
+            todayISO().replace(/-/g, "") +
+            "-" +
+            Math.random().toString(36).slice(2, 6).toUpperCase();
+      }
+      function save(manual) {
+        clearTimeout(saveTimer);
+        ensureMeta();
+        try {
+          localStorage.setItem(
+            CONFIG.storageKey,
+            JSON.stringify({
+              v: 1,
+              data: S.data,
+              step: S.step,
+              meta: S.meta,
+              savedAt: Date.now(),
+            }),
+          );
+          const t = new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          setSaveState("Draft saved locally at " + t);
+          if (manual)
+            toast(
+              "Progress saved in this browser. You can close this page and return later.",
+              "ok",
+            );
+          return true;
+        } catch (_) {
+          setSaveState("Could not save (browser storage unavailable).");
+          if (manual)
+            toast(
+              "Saving failed: this browser is blocking local storage. Use Export data (JSON) instead.",
+            );
+          return false;
+        }
+      }
+      function mergeData(incoming) {
+        const base = defaults();
+        if (!incoming || typeof incoming !== "object") return base;
+        Object.keys(incoming).forEach((k) => {
+          if (!(k in FMAP) && !["pages"].includes(k)) return;
+          const f = FMAP[k];
+          const v = incoming[k];
+          if (k === "pages") {
+            if (
+              Array.isArray(v) &&
+              v.every((p) => p && typeof p.name === "string")
+            )
+              base.pages = v.map((p) => ({
+                name: String(p.name),
+                custom: !!p.custom,
+                include: !!p.include,
+                priority: String(p.priority || ""),
+                content: String(p.content || ""),
+                copy: String(p.copy || ""),
+                notes: String(p.notes || ""),
+              }));
+          } else if (f && f.type === "repeater") {
+            if (Array.isArray(v) && v.length)
+              base[k] = v.map((r) => {
+                const o = blankRow(f);
+                f.sub.forEach((s) => {
+                  o[s.k] = String((r && r[s.k]) || "");
+                });
+                return o;
+              });
+          } else if (f && f.type === "checks") {
+            if (Array.isArray(v)) base[k] = v.map(String);
+          } else if (f && f.type === "check") base[k] = !!v;
+          else if (v != null && typeof v !== "object") base[k] = String(v);
+        });
+        return base;
+      }
+      function load() {
+        try {
+          const raw = localStorage.getItem(CONFIG.storageKey);
+          if (!raw) return false;
+          const o = JSON.parse(raw);
+          S.data = mergeData(o.data);
+          S.step = Math.max(0, Math.min(SECTIONS.length - 1, +o.step || 0));
+          S.meta = Object.assign({ refId: "", createdAt: "" }, o.meta || {});
+          const t = o.savedAt
+            ? new Date(o.savedAt).toLocaleString([], {
+                dateStyle: "medium",
+                timeStyle: "short",
+              })
+            : "";
+          setSaveState("Draft restored (saved " + t + ")");
+          return true;
+        } catch (_) {
+          return false;
+        }
+      }
+      function resetAll() {
+        try {
+          localStorage.removeItem(CONFIG.storageKey);
+        } catch (_) {}
+        S = {
+          data: defaults(),
+          step: 0,
+          meta: { refId: "", createdAt: "" },
+          errors: {},
+          shown: false,
+        };
+        setSaveState("");
+        renderStep();
+        window.scrollTo({ top: 0 });
+      }
+      function exportObject() {
+        ensureMeta();
+        return {
+          app: "web-project-discovery",
+          version: 1,
+          exportedAt: new Date().toISOString(),
+          referenceId: S.meta.refId,
+          completionPercent: overall(),
+          data: S.data,
+        };
+      }
+      function download(name, text, mime) {
+        const b = new Blob([text], { type: mime });
+        const u = URL.createObjectURL(b);
+        const a = document.createElement("a");
+        a.href = u;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(u), 2000);
+      }
+      function exportJSON() {
+        download(
+          `Project-Data-${slug(S.data.fullName || S.data.company || "Client")}-${todayISO()}.json`,
+          JSON.stringify(exportObject(), null, 2),
+          "application/json",
+        );
+        toast("Project data exported as JSON.", "ok");
+      }
+      function importJSON(o) {
+        if (
+          !o ||
+          o.app !== "web-project-discovery" ||
+          typeof o.data !== "object"
+        ) {
+          toast("This file is not a Website Project Discovery export.");
+          return;
+        }
+        S.data = mergeData(o.data);
+        if (o.referenceId) S.meta.refId = String(o.referenceId).slice(0, 40);
+        save(false);
+        go(0);
+        toast("Data imported.", "ok");
+      }
+      function slug(s) {
+        s = String(s || "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^A-Za-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "")
+          .slice(0, 40);
+        return s || "Client";
+      }
+
+      /* =====================================================================
+   OUTPUT MODEL (shared by review screen and PDF)
+   blocks: {t:'sub',text} | {t:'kv',rows:[[label,value|{list}]]} | {t:'table',title,head,rows}
+   ===================================================================== */
+      const curCode = () =>
+        S.data.currency === "Other"
+          ? (S.data.currencyOther || "").trim().toUpperCase()
+          : S.data.currency || "";
+      const money = (n) => {
+        const c = curCode();
+        const x = Number(n);
+        return (
+          (c ? c + " " : "") +
+          (isFinite(x)
+            ? x.toLocaleString("en-US", { maximumFractionDigits: 2 })
+            : n)
+        );
+      };
+
+      function valueOf(f) {
+        const v = S.data[f.id];
+        if (!isAnswered(f)) return null;
+        if (f.type === "checks") return { list: v.slice() };
+        if (f.type === "check") return "Yes";
+        if (f.type === "date") return fmtDate(v);
+        if (f.type === "number" && f.money) return money(v);
+        return String(v).trim();
+      }
+
+      function collect(fields, out) {
+        fields.forEach((f) => {
+          if (!isVisible(f) || f.type === "note") return;
+          if (f.type === "group") {
+            const sub = [];
+            collect(f.fields, sub);
+            if (sub.length) out.push({ t: "sub", text: f.title }, ...sub);
+          } else if (f.type === "repeater") {
+            const rows = (S.data[f.id] || []).filter((r) =>
+              f.sub.some((s) => String(r[s.k] || "").trim()),
+            );
+            if (rows.length)
+              out.push({
+                t: "table",
+                title: f.label,
+                head: f.sub.map((s) => s.label.replace(/ \(.*\)$/, "")),
+                rows: rows.map((r) =>
+                  f.sub.map((s) => String(r[s.k] || "").trim() || "\u2014"),
+                ),
+              });
+          } else if (f.type === "pages") {
+            const rows = (S.data.pages || []).filter(
+              (p) => p.include && p.name.trim(),
+            );
+            if (rows.length)
+              out.push({
+                t: "table",
+                title: "Selected pages (" + rows.length + ")",
+                head: ["Page", "Priority", "Content", "Copywriting", "Notes"],
+                rows: rows.map((p) => [
+                  p.name,
+                  p.priority || "Required",
+                  p.content || "\u2014",
+                  p.copy || "\u2014",
+                  p.notes || "\u2014",
+                ]),
+              });
+          } else if (f.inTable) {
+            /* shown in budget table */
+          } else {
+            const v = valueOf(f);
+            if (v != null) out.push({ t: "kv", rows: [[f.label, v]] });
+          }
+        });
+        return out;
+      }
+      function mergeKV(blocks) {
+        const out = [];
+        blocks.forEach((b) => {
+          const l = out[out.length - 1];
+          if (b.t === "kv" && l && l.t === "kv") l.rows.push(...b.rows);
+          else out.push(b.t === "kv" ? { t: "kv", rows: b.rows.slice() } : b);
+        });
+        return out;
+      }
+      function blocksFor(i) {
+        const sec = SECTIONS[i];
+        const blocks = collect(sec.fields, []);
+        if (i === 12) {
+          // budget
+          const d = S.data,
+            rows = [];
+          if (d.budgetTotal)
+            rows.push([
+              "Total project budget",
+              "One-time",
+              money(d.budgetTotal),
+            ]);
+          if (d.budgetMin || d.budgetMax)
+            rows.push([
+              "Acceptable range",
+              "One-time",
+              (d.budgetMin ? money(d.budgetMin) : "unspecified") +
+                " to " +
+                (d.budgetMax ? money(d.budgetMax) : "unspecified"),
+            ]);
+          if (d.recurringBudget)
+            rows.push([
+              "Recurring (maintenance, hosting, retainer)",
+              "Recurring, per month",
+              money(d.recurringBudget),
+            ]);
+          if (d.futureBudget)
+            rows.push([
+              "Future phase",
+              "Optional, later",
+              money(d.futureBudget),
+            ]);
+          if (rows.length)
+            blocks.unshift({
+              t: "table",
+              title:
+                "Budget summary (client planning figures, not a quotation)",
+              head: ["Item", "Type", "Amount"],
+              rows,
+            });
+        }
+        return mergeKV(blocks);
+      }
+
+      /* complexity / analysis */
+      function allSelected() {
+        const out = [];
+        SECTIONS.forEach((s) =>
+          leaves(s.fields).forEach((f) => {
+            if (f.type === "checks")
+              (S.data[f.id] || []).forEach((v) => out.push({ f, v }));
+          }),
+        );
+        return out;
+      }
+      function featureLists() {
+        const feats = [];
+        [
+          "commonFeatures",
+          "ecomFeatures",
+          "bookingFeatures",
+          "appFeatures",
+        ].forEach((id) => {
+          if (
+            isVisible(FMAP[id]) &&
+            (S.data[id] || []).length &&
+            leavesVisible(id)
+          )
+            (S.data[id] || []).forEach((v) => feats.push(v));
+        });
+        return feats;
+      }
+      function leavesVisible(id) {
+        return leaves(SECTIONS[6].fields).some((f) => f.id === id);
+      }
+      function flaggedItems() {
+        const out = [];
+        featureLists().forEach((v) => {
+          if (COMPLEX.includes(v))
+            out.push([v, "Complex feature; needs scoping and estimation"]);
+        });
+        (S.data.customFeatures || []).forEach((r) => {
+          if (String(r.name || "").trim())
+            out.push([
+              r.name.trim(),
+              "Custom feature; developer review required" +
+                (r.priority ? " (" + r.priority + ")" : ""),
+            ]);
+        });
+        if (isApp(S.data))
+          out.push([
+            "Web application scope",
+            "Application projects need a discovery / specification phase",
+          ]);
+        if (isEcom(S.data))
+          out.push([
+            "E-commerce setup",
+            "Payment, shipping, tax and catalog setup need estimation",
+          ]);
+        const n = (S.data.integrations || []).filter((r) =>
+          String(r.service || "").trim(),
+        ).length;
+        if (n)
+          out.push([
+            n + " third-party integration" + (n > 1 ? "s" : ""),
+            "Integrations depend on external APIs and account access",
+          ]);
+        if (S.data.userAccounts === "Yes")
+          out.push([
+            "User accounts",
+            "Authentication and data storage need estimation",
+          ]);
+        if (S.data.adminDash === "Yes")
+          out.push([
+            "Admin dashboard",
+            "Custom functionality needs estimation",
+          ]);
+        if (S.data.customFunc === "Yes")
+          out.push([
+            "Custom functionality (general)",
+            "Needs developer review",
+          ]);
+        if (
+          S.data.translation === "Yes" ||
+          (S.data.languages || "")
+            .split(/[,;/&]|\band\b/i)
+            .filter((x) => x.trim()).length > 1
+        )
+          out.push([
+            "Multi-language / translation",
+            "Affects content, layout and SEO structure",
+          ]);
+        const seen = new Set();
+        return out.filter((r) => {
+          const k = r[0].toLowerCase();
+          if (seen.has(k)) return false;
+          seen.add(k);
+          return true;
+        });
+      }
+      function outstanding() {
+        const out = [];
+        SECTIONS.forEach((s, i) => {
+          if (s.review) return;
+          leaves(s.fields).forEach((f) => {
+            const v = S.data[f.id];
+            if (
+              f.type === "checks"
+                ? Array.isArray(v) && v.includes(NS)
+                : v === NS
+            )
+              out.push([f.label, "Client is unsure; discuss with developer"]);
+            else if ((f.important || f.required) && !isAnswered(f))
+              out.push([f.label, "Not provided"]);
+          });
+        });
+        const b = S.data;
+        if (
+          !b.budgetTotal &&
+          b.devSuggest !== "Yes, please suggest a budget" &&
+          !(b.budgetMin || b.budgetMax) &&
+          !out.some((r) => r[0] === "Total project budget")
+        )
+          out.push(["Total project budget", "Not provided"]);
+        return out;
+      }
+      function dependencies() {
+        const d = S.data,
+          o = [];
+        if (d.contentDate)
+          o.push([
+            "Content delivery",
+            "Client content expected by " + fmtDate(d.contentDate) + ".",
+          ]);
+        if (
+          ["Client", "A mix"].some((x) =>
+            [d.copyWriter, d.imageProvider, d.videoProvider].includes(x),
+          )
+        )
+          o.push([
+            "Client-supplied content",
+            "Text, images or video from the client must arrive on time for the schedule to hold.",
+          ]);
+        if (d.feedbackTurn)
+          o.push([
+            "Feedback turnaround",
+            "Expected: " +
+              d.feedbackTurn +
+              ". Delays in feedback move the launch date.",
+          ]);
+        if (d.finalApprover || d.approverCount)
+          o.push([
+            "Approvals",
+            (d.approverCount
+              ? d.approverCount + " stakeholder(s) approve work. "
+              : "") +
+              (d.finalApprover
+                ? "Final approval: " + d.finalApprover + "."
+                : ""),
+          ]);
+        if (
+          d.domainStatus === "I own a domain" ||
+          d.hostingStatus === "I have a hosting account"
+        )
+          o.push([
+            "Domain / hosting access",
+            "Access to the registrar, DNS or hosting must be granted through a secure channel.",
+          ]);
+        if ((d.integrations || []).some((r) => String(r.service || "").trim()))
+          o.push([
+            "Third-party accounts",
+            "Integrations depend on account access and API availability.",
+          ]);
+        if (d.deadlineType === "Fixed")
+          o.push([
+            "Fixed deadline",
+            (d.launchDate ? fmtDate(d.launchDate) : "Date not given") +
+              (d.deadlineReason ? " \u2014 " + d.deadlineReason : "") +
+              ". Scope may need to be reduced to protect a fixed date.",
+          ]);
+        if (d.eventDep) o.push(["Business dependency", d.eventDep]);
+        if (d.timelineDeps)
+          o.push(["Client-stated dependencies", d.timelineDeps]);
+        if (d.blackout) o.push(["Unavailable periods", d.blackout]);
+        return o;
+      }
+      const ASSUMPTIONS = [
+        "This brief records the client\u2019s initial requirements. It is not a contract or a final quotation.",
+        "Budget figures are planning figures; the final price is confirmed after developer review.",
+        "Timelines depend on scope, feedback turnaround, content delivery, integrations and approvals.",
+        "Client-supplied content (text, images, video, logos) is delivered in usable form unless a content service is agreed.",
+        "Third-party fees (domains, hosting, plugins, licences, APIs, payment processing) are separate unless stated.",
+        "SEO rankings and business results cannot be guaranteed.",
+        "The client supplies or obtains legal documents unless a separate service is agreed.",
+      ];
+      const OUT_OF_SCOPE = [
+        "Legal advice or legally binding policy documents",
+        "Copywriting, photography, video production and translation, unless quoted separately",
+        "Third-party subscription, hosting, domain and licence costs, unless stated",
+        "Ongoing maintenance, SEO or marketing services, unless agreed separately",
+        "Features not listed in the confirmed scope",
+      ];
+      function matrix() {
+        const must = [],
+          should = [],
+          future = [];
+        [S.data.prio1, S.data.prio2, S.data.prio3].forEach((p) => {
+          if (p && p.trim()) must.push("Priority: " + p.trim());
+        });
+        (S.data.pages || [])
+          .filter((p) => p.include && p.name.trim())
+          .forEach((p) => {
+            (p.priority === "Optional"
+              ? should
+              : p.priority === "Future phase"
+                ? future
+                : must
+            ).push("Page: " + p.name.trim());
+          });
+        (S.data.customFeatures || [])
+          .filter((r) => String(r.name || "").trim())
+          .forEach((r) => {
+            const p = r.priority;
+            (p === "Future phase"
+              ? future
+              : p === "Should-have" || p === "Nice-to-have"
+                ? should
+                : must
+            ).push("Feature: " + r.name.trim());
+          });
+        const n = Math.max(must.length, should.length, future.length);
+        if (!n) return null;
+        return {
+          head: [
+            "Must-have / Required",
+            "Should-have / Optional",
+            "Future phase",
+          ],
+          rows: Array.from({ length: n }, (_, i) => [
+            must[i] || "",
+            should[i] || "",
+            future[i] || "",
+          ]),
+        };
+      }
+      function analysisBlocks() {
+        const b = [];
+        const o = outstanding();
+        if (o.length)
+          b.push({
+            t: "table",
+            title: "Outstanding questions and missing information",
+            head: ["Item", "Status"],
+            rows: o,
+          });
+        const fl = flaggedItems();
+        if (fl.length)
+          b.push({
+            t: "table",
+            title: "Items requiring developer estimation (not confirmed scope)",
+            head: ["Item", "Reason"],
+            rows: fl,
+          });
+        const m = matrix();
+        if (m)
+          b.push({
+            t: "table",
+            title: "Project priority matrix",
+            head: m.head,
+            rows: m.rows,
+          });
+        const dp = dependencies();
+        if (dp.length)
+          b.push({
+            t: "table",
+            title: "Dependencies",
+            head: ["Dependency", "Detail"],
+            rows: dp,
+          });
+        return b;
+      }
+      function devHasContent() {
+        return (
+          DEV_FIELDS.some(
+            (f) =>
+              ["textarea"].includes(f.type) &&
+              String(S.data[f.id] || "").trim(),
+          ) || S.data.devComplexity
+        );
+      }
+      function devRows() {
+        return DEV_FIELDS.map((f) => {
+          const v = valueOf(f);
+          return v == null ? null : [f.label, v];
+        }).filter(Boolean);
+      }
+
+      /* =====================================================================
+   REVIEW SCREEN
+   ===================================================================== */
+      function valHTML(v) {
+        return v && v.list
+          ? "<ul>" + v.list.map((x) => `<li>${esc(x)}</li>`).join("") + "</ul>"
+          : esc(v);
+      }
+      function blocksHTML(blocks) {
+        if (!blocks.length)
+          return '<p class="empty">No information provided in this section yet.</p>';
+        return blocks
+          .map((b) => {
+            if (b.t === "sub")
+              return `<div class="rv-sub">${esc(b.text)}</div>`;
+            if (b.t === "kv")
+              return `<dl class="kv">${b.rows.map((r) => `<dt>${esc(r[0])}</dt><dd>${valHTML(r[1])}</dd>`).join("")}</dl>`;
+            return `<div class="rv-sub">${esc(b.title)}</div><div class="tbl-w"><table class="t"><thead><tr>${b.head.map((h) => `<th scope="col">${esc(h)}</th>`).join("")}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+          })
+          .join("");
+      }
+      function renderReview() {
+        const el = $("#reviewRoot");
+        const errs = validateAll();
+        const fl = flaggedItems().length,
+          out = outstanding().length;
+        const pages = (S.data.pages || []).filter((p) => p.include).length;
+        let h = `<div class="stats"><div class="stat"><b>${overall()}%</b><span>Complete</span></div><div class="stat"><b>${pages}</b><span>Pages selected</span></div><div class="stat"><b>${fl}</b><span>Need estimation</span></div><div class="stat"><b>${out}</b><span>Open questions</span></div></div>`;
+        h += `<div id="reviewAlert"></div><div id="printArea">`;
+        SECTIONS.forEach((s, i) => {
+          if (s.review) return;
+          h += `<div class="rv"><div class="rv-h"><h3><em>${String(i + 1).padStart(2, "0")}</em>${esc(s.title)}</h3><button type="button" class="btn sm no-print" data-go="${i}">Edit</button></div><div class="rv-b">${blocksHTML(blocksFor(i))}</div></div>`;
+        });
+        h += `<div class="rv"><div class="rv-h"><h3>Analysis for the developer</h3></div><div class="rv-b">${blocksHTML(analysisBlocks()) || ""}</div></div></div>`;
+        h += `<div class="confirm"><h3>Confirmation</h3><div class="grid">${SECTIONS[17].fields.map(renderField).join("")}</div></div>`;
+        h += `<details class="dev no-print"><summary>Developer review <span class="badge">Internal</span></summary><div class="in"><div class="note" style="margin-bottom:16px">For the developer only. These notes are separate from the client\u2019s answers and are <b>not confirmed requirements</b>. They appear in the PDF in a clearly labelled section.</div><div class="grid">${DEV_FIELDS.map(renderField).join("")}</div></div></details>`;
+        h += `<div class="actions no-print"><button type="button" class="btn red big" data-act="gen-pdf" id="genBtn">Generate Project Brief PDF</button><button type="button" class="btn" data-act="print">Print / Save as PDF</button><button type="button" class="btn" data-act="export-json">Export data (JSON)</button><button type="button" class="btn danger" data-act="clear-after">Erase draft and clear form</button></div><p class="help no-print">The PDF is created in your browser. Nothing is uploaded. Print / Save as PDF prints the review summary above through your browser.</p>`;
+        el.innerHTML = h;
+        if (S.shown && errs.length) showReviewAlert(errs);
+      }
+      function showReviewAlert(errs) {
+        const a = $("#reviewAlert");
+        if (!a) return;
+        if (!errs.length) {
+          a.innerHTML = "";
+          return;
+        }
+        a.innerHTML = `<div class="alert" role="alert"><b>${errs.length} item${errs.length > 1 ? "s" : ""} to fix before the PDF can be generated.</b><ul>${errs.map((e) => `<li>${esc(e.f.label.length > 70 ? e.f.label.slice(0, 67) + "\u2026" : e.f.label)}: ${esc(e.msg)} ${e.step !== 17 ? `<button type="button" class="linkbtn" data-go="${e.step}">Go to section ${e.step + 1}</button>` : ""}</li>`).join("")}</ul></div>`;
+        errs
+          .filter((e) => e.step === 17)
+          .forEach((e) => showFieldError(e.f, e.msg));
+        a.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+
+      /* =====================================================================
+   PDF GENERATION
+   ===================================================================== */
+      const CH = {
+        "\u2018": "'",
+        "\u2019": "'",
+        "\u201A": ",",
+        "\u201C": '"',
+        "\u201D": '"',
+        "\u2013": "-",
+        "\u2014": " - ",
+        "\u2026": "...",
+        "\u2022": "*",
+        "\u00A0": " ",
+        "\u2192": "->",
+        "\u2264": "<=",
+        "\u2265": ">=",
+        "\u2212": "-",
+        "\u2713": "x",
+      };
+      function san(s) {
+        return String(s == null ? "" : s)
+          .replace(/\r\n?/g, "\n")
+          .normalize("NFC")
+          .replace(/\s*\u2014\s*/g, " - ")
+          .replace(
+            /[\u2018\u2019\u201A\u201C\u201D\u2013\u2026\u2022\u00A0\u2192\u2264\u2265\u2212\u2713]/g,
+            (c) => CH[c],
+          )
+          .replace(/[\u200B-\u200D\uFEFF]/g, "")
+          .replace(/[^\n\t\x20-\x7E\u00A1-\u00FF]/g, "?");
+      }
+      const pdfVal = (v) =>
+        v && v.list ? v.list.map((x) => "[x] " + x).join("\n") : v;
+
+      async function generatePDF() {
+        const errs = validateAll();
+        S.shown = true;
+        if (errs.length) {
+          showReviewAlert(errs);
+          toast("Please complete the required items first.");
+          return;
+        }
+        if (window.__pdfLibFailed || !window.jspdf || !window.jspdf.jsPDF) {
+          toast(
+            "The PDF library could not be loaded (check your internet connection). Use Print / Save as PDF instead.",
+          );
+          return;
+        }
+        const btn = $("#genBtn");
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Generating PDF\u2026";
+        }
+        await new Promise((r) => setTimeout(r, 40));
+        try {
+          ensureMeta();
+          save(false);
+          const { filename } = buildPDF(true);
+          toast("PDF generated and downloaded: " + filename, "ok");
+        } catch (err) {
+          toast(
+            "Sorry, the PDF could not be generated. Try Print / Save as PDF, or export the JSON data.",
+          );
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Generate Project Brief PDF";
+          }
+        }
+      }
+
+      function buildPDF(doSave) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: "mm", format: "a4", compress: true });
+        if (typeof doc.autoTable !== "function")
+          throw new Error("autotable missing");
+        const W = 210,
+          H = 297,
+          M = 18,
+          TOP = 24,
+          BOTTOM = H - 20,
+          CW = W - 2 * M;
+        const INK = [12, 12, 13],
+          RED = [140, 28, 36],
+          GRAY = [112, 112, 120],
+          LIGHT = [226, 226, 230];
+        const d = S.data,
+          now = new Date(),
+          isoNow = todayISO();
+        const project = d.projectName || "Untitled project";
+        const client = d.fullName || "Client",
+          company = d.company || d.businessName || "";
+        const status = d.devStatus || CONFIG.defaultStatus,
+          rev = d.devRevision || "1";
+        const ref = S.meta.refId;
+        let y = TOP;
+        const toc = [];
+
+        /* ---- cover ---- */
+        doc.setFillColor(...INK);
+        doc.rect(0, 0, W, H, "F");
+        doc.setFillColor(...RED);
+        doc.rect(M, 62, 2.4, 52, "F");
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10);
+        doc.text(san(CONFIG.brandName).toUpperCase(), M, 30, {
+          charSpace: 1.4,
+        });
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(160, 160, 168);
+        doc.text(san(CONFIG.brandTagline), M, 36);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(30);
+        doc.setTextColor(255, 255, 255);
+        doc.text(
+          doc.splitTextToSize("Website Project Requirements Brief", CW - 12),
+          M + 9,
+          76,
+          { lineHeightFactor: 1.2 },
+        );
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(15);
+        doc.setTextColor(215, 215, 220);
+        const pl = doc.splitTextToSize(san(project), CW - 12).slice(0, 3);
+        doc.text(pl, M + 9, 108);
+        doc.setFontSize(11);
+        doc.setTextColor(165, 165, 172);
+        const cl = san(client + (company ? " - " + company : ""));
+        doc.text(
+          doc.splitTextToSize(cl, CW - 12).slice(0, 2),
+          M + 9,
+          108 + pl.length * 7 + 4,
+        );
+        const meta = [
+          ["DOCUMENT DATE", fmtDate(isoNow)],
+          ["REFERENCE ID", ref],
+          ["REVISION", String(rev)],
+          ["STATUS", status],
+        ];
+        let my = H - 98;
+        meta.forEach((m) => {
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(7.5);
+          doc.setTextColor(130, 130, 138);
+          doc.text(m[0], M, my, { charSpace: 1 });
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(10.5);
+          doc.setTextColor(240, 240, 242);
+          const ls = doc.splitTextToSize(san(m[1]), CW);
+          doc.text(ls, M, my + 5.5);
+          my += 5.5 + ls.length * 5 + 5;
+        });
+        doc.setDrawColor(60, 60, 66);
+        doc.setLineWidth(0.2);
+        doc.line(M, H - 34, W - M, H - 34);
+        doc.setFontSize(7.5);
+        doc.setTextColor(135, 135, 142);
+        doc.text(
+          doc.splitTextToSize(san(CONFIG.confidentiality), CW),
+          M,
+          H - 28,
+          { lineHeightFactor: 1.35 },
+        );
+
+        doc.addPage(); /* page 2 = contents, filled at the end */
+        doc.addPage();
+        y = TOP;
+
+        /* ---- drawing helpers ---- */
+        const room = (n) => {
+          if (y + n > BOTTOM) {
+            doc.addPage();
+            y = TOP;
+          }
+        };
+        const heading = (n, title) => {
+          room(48);
+          toc.push({ n, title, page: doc.getCurrentPageInfo().pageNumber });
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(9);
+          doc.setTextColor(...RED);
+          doc.text(String(n).padStart(2, "0"), M, y);
+          doc.setFontSize(15);
+          doc.setTextColor(...INK);
+          doc.text(san(title), M + 9, y);
+          y += 3.2;
+          doc.setDrawColor(...RED);
+          doc.setLineWidth(0.7);
+          doc.line(M, y, M + 18, y);
+          doc.setDrawColor(...LIGHT);
+          doc.setLineWidth(0.25);
+          doc.line(M + 18, y, W - M, y);
+          y += 7;
+        };
+        const sub = (t) => {
+          room(30);
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(9);
+          doc.setTextColor(...GRAY);
+          doc.text(san(t).toUpperCase(), M, y, { charSpace: 0.6 });
+          y += 4.5;
+        };
+        const para = (t, o) => {
+          o = o || {};
+          doc.setFont("helvetica", o.italic ? "italic" : "normal");
+          doc.setFontSize(o.size || 10);
+          doc.setTextColor(...(o.color || [40, 40, 46]));
+          doc.splitTextToSize(san(t), CW).forEach((l) => {
+            room(5.4);
+            doc.text(l, M, y);
+            y += 5;
+          });
+          y += o.gap == null ? 3 : o.gap;
+        };
+        const base = () => ({
+          font: "helvetica",
+          fontSize: 9,
+          cellPadding: { top: 2.2, bottom: 2.2, left: 2.8, right: 2.8 },
+          textColor: [34, 34, 40],
+          lineColor: LIGHT,
+          lineWidth: 0.2,
+          overflow: "linebreak",
+          valign: "top",
+        });
+        const margin = { top: TOP - 3, bottom: 20, left: M, right: M };
+        const kv = (rows, o) => {
+          o = o || {};
+          doc.autoTable({
+            startY: y,
+            theme: "grid",
+            margin,
+            styles: base(),
+            showHead: "everyPage",
+            head: o.title
+              ? [
+                  [
+                    {
+                      content: san(o.title),
+                      colSpan: 2,
+                      styles: {
+                        fillColor: o.headFill || INK,
+                        textColor: 255,
+                        fontStyle: "bold",
+                        fontSize: 8.5,
+                      },
+                    },
+                  ],
+                ]
+              : undefined,
+            body: rows.map((r) => [san(pdfVal(r[0])), san(pdfVal(r[1]))]),
+            bodyStyles: o.fill ? { fillColor: o.fill } : {},
+            columnStyles: {
+              0: {
+                cellWidth: 50,
+                fontStyle: "bold",
+                textColor: [70, 70, 78],
+                fillColor: o.fill ? [232, 232, 235] : [246, 246, 247],
+              },
+              1: { cellWidth: "auto" },
+            },
+          });
+          y = doc.lastAutoTable.finalY + 6;
+        };
+        const table = (head, rows, title, o) => {
+          o = o || {};
+          if (title) sub(title);
+          doc.autoTable({
+            startY: y,
+            theme: "grid",
+            margin,
+            styles: base(),
+            showHead: "everyPage",
+            head: [head.map((h) => san(h))],
+            body: rows.map((r) => r.map((c) => san(c))),
+            headStyles: {
+              fillColor: INK,
+              textColor: 255,
+              fontStyle: "bold",
+              fontSize: 8.5,
+            },
+            alternateRowStyles: { fillColor: [250, 250, 251] },
+            columnStyles: o.cols || {},
+          });
+          y = doc.lastAutoTable.finalY + 6;
+        };
+        const renderBlocks = (blocks) => {
+          if (!blocks.length) {
+            para("No information provided.", { italic: true, color: GRAY });
+            return;
+          }
+          blocks.forEach((b) => {
+            if (b.t === "sub") sub(b.text);
+            else if (b.t === "kv") kv(b.rows);
+            else
+              table(
+                b.head,
+                b.rows,
+                b.title,
+                b.head.length === 5
+                  ? {
+                      cols: {
+                        0: { cellWidth: 36 },
+                        1: { cellWidth: 20 },
+                        2: { cellWidth: 26 },
+                        3: { cellWidth: 26 },
+                      },
+                    }
+                  : {},
+              );
+          });
+        };
+
+        let n = 1;
+        /* ---- 1 executive summary ---- */
+        heading(n++, "Executive Summary");
+        const typeStr =
+          d.projectType && d.projectType !== NS
+            ? d.projectType === "Other"
+              ? d.projectTypeOther || "website project"
+              : d.projectType
+            : "website project";
+        const s = [];
+        s.push(
+          `${client}${d.role ? " (" + d.role + ")" : ""}${company ? " of " + company : ""} has requested a ${typeStr.toLowerCase()}${d.projectName ? ', "' + d.projectName + '"' : ""}.`,
+        );
+        if (d.projectDesc) s.push(d.projectDesc.trim());
+        if (d.goal && d.goal !== NS)
+          s.push(
+            "The primary goal of the website is to " +
+              (d.goal === "Other"
+                ? d.goalOther || "meet the goals described below"
+                : d.goal.toLowerCase()) +
+              ".",
+          );
+        const pg = (d.pages || []).filter((p) => p.include).length;
+        const feats =
+          featureLists().length +
+          (d.customFeatures || []).filter((r) => String(r.name || "").trim())
+            .length;
+        if (pg || feats)
+          s.push(
+            `The client has selected ${pg} page${pg === 1 ? "" : "s"} and ${feats} feature${feats === 1 ? "" : "s"}.`,
+          );
+        if (d.budgetTotal)
+          s.push("The stated planning budget is " + money(d.budgetTotal) + ".");
+        else if (d.budgetMin || d.budgetMax)
+          s.push(
+            "The stated budget range is " +
+              (d.budgetMin ? money(d.budgetMin) : "unspecified") +
+              " to " +
+              (d.budgetMax ? money(d.budgetMax) : "unspecified") +
+              ".",
+          );
+        if (d.launchDate)
+          s.push(
+            "The desired launch date is " +
+              fmtDate(d.launchDate) +
+              (d.deadlineType === "Fixed"
+                ? " (fixed deadline)"
+                : d.deadlineType === "Flexible"
+                  ? " (flexible)"
+                  : "") +
+              ".",
+          );
+        s.push(
+          "This document records the client\u2019s initial requirements and is pending developer review. Scope, pricing and timeline are not final until confirmed.",
+        );
+        para(s.join(" "), { size: 10.5 });
+        const snap = [
+          ["Project", project],
+          [
+            "Project type",
+            d.projectType === "Other" ? d.projectTypeOther : d.projectType,
+          ],
+          ["Primary goal", d.goal === "Other" ? d.goalOther : d.goal],
+          ["Pages selected", pg || null],
+          ["Features requested", feats || null],
+          ["Items flagged for estimation", flaggedItems().length || null],
+          [
+            "Budget",
+            d.budgetTotal
+              ? money(d.budgetTotal)
+              : d.devSuggest === "Yes, please suggest a budget"
+                ? "Developer to suggest"
+                : null,
+          ],
+          ["Desired launch", d.launchDate ? fmtDate(d.launchDate) : null],
+          ["Form completion", overall() + "%"],
+        ].filter((r) => r[1] != null && r[1] !== "");
+        kv(snap, { title: "Project snapshot" });
+
+        /* ---- 2..15 form-driven sections ---- */
+        const GROUPS = [
+          ["Client & Business Profile", [0, 1]],
+          ["Project Objectives & Success Criteria", [2]],
+          ["Target Audience & Goals", [3]],
+          ["Website Scope & Sitemap", [4, 5]],
+          ["Functional Requirements", [6]],
+          ["Design & Branding Preferences", [7]],
+          ["Content & Media Responsibilities", [8]],
+          ["Integrations & External Services", [9]],
+          ["Technical & Hosting Requirements", [10]],
+          ["SEO, Analytics, Performance & Accessibility", [11]],
+          ["Budget & Commercial Preferences", [12]],
+          ["Proposed Timeline & Milestones", [13]],
+          ["Communication & Approval Workflow", [14]],
+          ["Legal, Privacy & Compliance Considerations", [15]],
+        ];
+        GROUPS.forEach(([title, idx]) => {
+          heading(n++, title);
+          idx.forEach((i) => {
+            if (idx.length > 1) sub(SECTIONS[i].title);
+            renderBlocks(blocksFor(i));
+          });
+          if (idx[0] === 12)
+            para(
+              "The budget above is the client\u2019s planning figure. It is not a binding quote or agreement.",
+              { italic: true, size: 8.5, color: GRAY },
+            );
+          if (idx[0] === 13)
+            para(
+              "Timelines depend on scope, feedback turnaround, content delivery, integrations and approvals.",
+              { italic: true, size: 8.5, color: GRAY },
+            );
+          if (idx[0] === 15)
+            para(
+              "Collecting these requirements is not legal advice. The client is responsible for supplying or obtaining legal documents unless a separate service is agreed.",
+              { italic: true, size: 8.5, color: GRAY },
+            );
+          if (idx[0] === 11)
+            para("SEO rankings and business results cannot be guaranteed.", {
+              italic: true,
+              size: 8.5,
+              color: GRAY,
+            });
+          if (idx[0] === 6) {
+            const fl = flaggedItems();
+            if (fl.length)
+              table(
+                ["Item", "Reason"],
+                fl,
+                "Flagged for developer review and estimation",
+                { cols: { 0: { cellWidth: 60 } } },
+              );
+            para(
+              "Requested features are not automatically included in any price. Flagged items require developer review.",
+              { italic: true, size: 8.5, color: GRAY },
+            );
+          }
+        });
+
+        /* ---- 16 risks, dependencies, outstanding ---- */
+        heading(n++, "Risks, Dependencies & Outstanding Questions");
+        const o = outstanding();
+        if (o.length)
+          table(
+            ["Item", "Status"],
+            o,
+            "Outstanding questions and missing information",
+            { cols: { 1: { cellWidth: 62 } } },
+          );
+        else
+          para("No outstanding questions were identified from the form.", {
+            italic: true,
+            color: GRAY,
+          });
+        const dp = dependencies();
+        if (dp.length)
+          table(["Dependency", "Detail"], dp, "Dependencies", {
+            cols: { 0: { cellWidth: 46 } },
+          });
+        const mx = matrix();
+        if (mx) table(mx.head, mx.rows, "Project priority matrix");
+        table(
+          ["Assumption"],
+          ASSUMPTIONS.concat(
+            String(d.devAssumptions || "").trim() ? [] : [],
+          ).map((a) => [a]),
+          "Assumptions",
+        );
+        table(
+          ["Out of scope unless agreed in writing"],
+          OUT_OF_SCOPE.map((a) => [a]),
+          "Out of scope",
+        );
+        const cc = [];
+        if (d.concerns) cc.push(["Client-stated concerns", d.concerns]);
+        if (d.limitations)
+          cc.push(["Known technical limitations", d.limitations]);
+        if (cc.length) kv(cc, { title: "Client-stated risks" });
+        if (devHasContent()) {
+          sub("Developer review");
+          kv(devRows(), {
+            title: "DEVELOPER REVIEW - NOT CLIENT-CONFIRMED REQUIREMENTS",
+            headFill: [110, 110, 118],
+            fill: [244, 244, 246],
+          });
+        }
+
+        /* ---- 17 additional notes ---- */
+        heading(n++, "Additional Notes");
+        renderBlocks(blocksFor(16));
+
+        /* ---- 18 confirmation ---- */
+        heading(n++, "Client Confirmation");
+        const tick = (v) => (v ? "[x] " : "[ ] ");
+        kv([
+          [
+            tick(d.conf1) + SECTIONS[17].fields[0].label,
+            d.conf1 ? "Confirmed" : "Not confirmed",
+          ],
+          [
+            tick(d.conf2) + SECTIONS[17].fields[1].label,
+            d.conf2 ? "Confirmed" : "Not confirmed",
+          ],
+          [
+            tick(d.conf3) + SECTIONS[17].fields[2].label,
+            d.conf3 ? "Confirmed" : "Not confirmed",
+          ],
+          ["Typed name", d.sigName || "Not provided"],
+          ["Date", d.sigDate ? fmtDate(d.sigDate) : "Not provided"],
+        ]);
+        para(
+          "A typed name is a record of who completed this form. It is not a verified electronic signature, and this document is not a contract or final quotation.",
+          { italic: true, size: 8.5, color: GRAY },
+        );
+
+        /* ---- contents page ---- */
+        doc.setPage(2);
+        let cy = TOP;
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(20);
+        doc.setTextColor(...INK);
+        doc.text("Contents", M, cy);
+        cy += 3.5;
+        doc.setDrawColor(...RED);
+        doc.setLineWidth(0.7);
+        doc.line(M, cy, M + 18, cy);
+        cy += 12;
+        toc.forEach((t) => {
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(9);
+          doc.setTextColor(...RED);
+          doc.text(String(t.n).padStart(2, "0"), M, cy);
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(11);
+          doc.setTextColor(...INK);
+          doc.text(san(t.title), M + 11, cy);
+          doc.setTextColor(...GRAY);
+          doc.text(String(t.page), W - M, cy, { align: "right" });
+          doc.setDrawColor(...LIGHT);
+          doc.setLineWidth(0.2);
+          doc.line(M, cy + 2.6, W - M, cy + 2.6);
+          cy += 10;
+        });
+        cy += 6;
+        doc.setFontSize(8.5);
+        doc.setTextColor(...GRAY);
+        doc.text(
+          doc.splitTextToSize(
+            "Items marked [x] were selected by the client. Developer review notes, where present, are labelled and are not client-confirmed requirements.",
+            CW,
+          ),
+          M,
+          cy,
+          { lineHeightFactor: 1.4 },
+        );
+
+        /* ---- headers, footers ---- */
+        const total = doc.getNumberOfPages();
+        for (let i = 2; i <= total; i++) {
+          doc.setPage(i);
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(7.5);
+          doc.setTextColor(...GRAY);
+          doc.text(san(CONFIG.brandName).toUpperCase(), M, 12, {
+            charSpace: 0.8,
+          });
+          doc.setFont("helvetica", "normal");
+          doc.text(san(ref), W - M, 12, { align: "right" });
+          doc.setDrawColor(...RED);
+          doc.setLineWidth(0.6);
+          doc.line(M, 14.6, M + 10, 14.6);
+          doc.setDrawColor(...LIGHT);
+          doc.setLineWidth(0.2);
+          doc.line(M + 10, 14.6, W - M, 14.6);
+          doc.line(M, H - 14, W - M, H - 14);
+          doc.setFontSize(8);
+          doc.setTextColor(...GRAY);
+          doc.text(doc.splitTextToSize(san(project), 80)[0], M, H - 9.5);
+          doc.text(fmtDate(isoNow) + "  |  Rev " + rev, W / 2, H - 9.5, {
+            align: "center",
+          });
+          doc.text("Page " + i + " of " + total, W - M, H - 9.5, {
+            align: "right",
+          });
+        }
+        doc.setProperties({
+          title: san("Website Project Requirements Brief - " + project),
+          subject: "Client requirements brief",
+          author: san(CONFIG.brandName),
+          creator: "Website Project Discovery",
+          keywords: san(ref),
+        });
+        const filename = `Project-Requirements-${slug(client || company)}-${isoNow}.pdf`;
+        if (doSave) doc.save(filename);
+        return { doc, filename };
+      }
+
+      /* =====================================================================
+   INIT
+   ===================================================================== */
+      function init() {
+        $("#brandName").textContent = CONFIG.brandName;
+        $("#brandTag").textContent = CONFIG.brandTagline;
+        $("#heroBrand").textContent = CONFIG.brandName;
+        $("#brandMark").textContent = (
+          CONFIG.brandName.trim()[0] || "W"
+        ).toUpperCase();
+        document.title = "Website Project Discovery \u2014 " + CONFIG.brandName;
+        if (CONFIG.poweredBy) $("#poweredBy").textContent = CONFIG.poweredBy;
+        else $(".powered").hidden = true;
+        if (CONFIG.logoUrl) {
+          const m = $("#brandMark"),
+            img = new Image();
+          img.alt = CONFIG.brandName + " logo";
+          img.onload = () => {
+            m.textContent = "";
+            m.classList.add("has-img");
+            m.appendChild(img);
+            m.style.width = "auto";
+            m.style.minWidth = "36px";
+            m.style.maxWidth = "120px";
+          };
+          img.src = CONFIG.logoUrl;
+        }
+        if (CONFIG.poweredByLogoUrl && CONFIG.poweredBy) {
+          const pi = new Image();
+          pi.alt = "";
+          pi.onload = () => $(".powered").appendChild(pi);
+          pi.src = CONFIG.poweredByLogoUrl;
+        }
+        S.data = defaults();
+        const restored = load();
+        renderStep();
+        if (restored) toast("Your saved draft was restored.", "ok");
+      }
+      window.WPD = {
+        buildPDF,
+        get state() {
+          return S;
+        },
+        SECTIONS,
+        FMAP,
+        defaults,
+        mergeData,
+        validateAll,
+        blocksFor,
+        analysisBlocks,
+        sectionStats,
+        overall,
+      };
+      init();
+    </script>
+  </body>
+</html>
