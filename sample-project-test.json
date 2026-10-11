@@ -1,0 +1,479 @@
+{
+  "app": "web-project-discovery",
+  "version": 1,
+  "exportedAt": "2026-10-11T12:00:00.000Z",
+  "referenceId": "REF-TEST-001",
+  "completionPercent": 92,
+  "data": {
+    "fullName": "Ayesha Khan",
+    "company": "Northstar Legal Group",
+    "role": "Marketing Manager",
+    "email": "ayesha@northstarlegal.com",
+    "phone": "+92 300 1234567",
+    "prefContact": "WhatsApp",
+    "country": "Pakistan",
+    "city": "Islamabad",
+    "address": "Suite 12, Blue Area, Islamabad",
+    "currentUrl": "https://northstarlegal.com",
+    "commHours": "Mon–Fri, 10:00–17:00 PKT (UTC+5)",
+    "inquiryDate": "2026-10-11",
+    "referral": "Referral",
+    "referralOther": "Muneeb Ahmed",
+    "decisionMaker": "Ayesha Khan",
+    "stakeholders": "Founder, operations manager, client success lead",
+    "businessName": "Northstar Legal Group",
+    "industry": "Legal services",
+    "bizModel": "B2C",
+    "bizDesc": "Northstar Legal Group provides legal consulting for individuals and SMEs in personal law, corporate advisory, and dispute resolution.",
+    "products": "Family law, employment law, business setup, contract review, dispute resolution",
+    "usp": "We combine responsive legal guidance with a clear, approachable client experience.",
+    "different": "We focus on clear communication, fast response times, and practical legal guidance for people and businesses.",
+    "competitors": [
+      {
+        "name": "Apex Law",
+        "url": "https://apexlaw.com",
+        "notes": "Strong reputation and online presence, but their website feels generic and harder to navigate for first-time clients."
+      },
+      {
+        "name": "LegalPath Advisory",
+        "url": "https://legalpathadvisory.com",
+        "notes": "Good case studies, but weaker service page structure and limited trust-building content."
+      }
+    ],
+    "serviceArea": "Islamabad and Rawalpindi; nationwide remote consultations",
+    "onlinePresence": "Website, LinkedIn, Google Business Profile, and social media pages are active but inconsistent.",
+    "challenges": "Clients struggle to understand our offerings, trust the firm, and know how to book a consultation quickly.",
+    "marketing": [
+      "SEO",
+      "Organic social media",
+      "Google Business Profile",
+      "Referrals / word of mouth"
+    ],
+    "socials": [
+      {
+        "platform": "LinkedIn",
+        "url": "https://www.linkedin.com/company/northstar-legal-group"
+      },
+      {
+        "platform": "Facebook",
+        "url": "https://www.facebook.com/northstarlegalgroup"
+      }
+    ],
+    "projectName": "Northstar Legal Group Website Redesign",
+    "projectType": "Website redesign",
+    "engagement": "Fixed-scope project followed by ongoing support",
+    "projectDesc": "A refreshed website for a legal services business focused on improving trust, clarity, and lead generation for consultations.",
+    "why": "Our current website no longer reflects our brand and is losing qualified enquiries from potential clients.",
+    "problems": "The site is outdated, difficult to navigate, lacks clear calls to action, and does not communicate the firm's expertise well.",
+    "success": "We want more enquiries from people seeking legal advice and a clearer path to booking consultations.",
+    "objectives": "Refresh branding, improve UX, support lead generation, clarify services, and showcase trust indicators.",
+    "prio1": "Simplify the user journey for consultation enquiries",
+    "prio2": "Improve trust and credibility",
+    "prio3": "Showcase services clearly and professionally",
+    "projCurrentUrl": "https://northstarlegal.com",
+    "retain": "Brand elements, trust-building content, and existing case study material should be kept where relevant.",
+    "replace": "Outdated layout, weak CTAs, confusing navigation, and generic service presentation should be improved.",
+    "currentPlatform": "WordPress",
+    "contentMigration": "Yes, selected content",
+    "outcome": "A modern, conversion-focused legal website that feels credible, professional, and easy to navigate on mobile and desktop.",
+    "goal": "Generate leads",
+    "goalOther": "",
+    "secondaryGoals": [
+      "Generate leads",
+      "Build brand awareness",
+      "Book appointments"
+    ],
+    "audience": "Adults seeking legal help, business owners, families, and professionals between 28 and 60 in Pakistan and the wider regional market.",
+    "audienceIndustries": "SMEs, property owners, professionals, families, startups, and individuals seeking legal guidance.",
+    "painPoints": "Legal processes feel intimidating, decisions are hard to make, and people need clear next steps before contacting a lawyer.",
+    "desiredActions": "Request a consultation, call the office, or send a message via the website contact form.",
+    "cta": "Book a consultation",
+    "markets": "Pakistan, UAE, Saudi Arabia (remote consultations)",
+    "languages": "English, Urdu",
+    "traffic": "1,000 – 10,000 / month",
+    "conversions": [
+      "Contact form submission",
+      "Phone call",
+      "WhatsApp message"
+    ],
+    "successMeasure": "Lead volume, conversion rate, consultation booking rate, and average enquiry quality.",
+    "existingData": "Google Search Console is active and organic traffic is growing, but conversion rate remains inconsistent.",
+    "siteCategory": "Business / corporate",
+    "size": "Medium (6–15 pages)",
+    "pageCount": 10,
+    "nature": "Informational",
+    "structure": "Multi-page",
+    "userAccounts": "No",
+    "adminDash": "No",
+    "cms": "Yes, I want to edit content myself",
+    "customFunc": "Yes",
+    "maintenance": "A short post-launch support period only",
+    "pages": [
+      {
+        "name": "Home",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Content exists",
+        "copy": "Client will write it",
+        "notes": "Strong hero section and trust indicators required."
+      },
+      {
+        "name": "About",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Content exists",
+        "copy": "Client will write it",
+        "notes": "Firm background and leadership profile."
+      },
+      {
+        "name": "Services",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Partially exists",
+        "copy": "Client will write it",
+        "notes": "Need clearer service grouping."
+      },
+      {
+        "name": "Individual service detail pages",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Needs to be created",
+        "copy": "Copywriting needed",
+        "notes": "Each legal service needs a dedicated page."
+      },
+      {
+        "name": "Products",
+        "custom": false,
+        "include": false,
+        "priority": "",
+        "content": "",
+        "copy": "",
+        "notes": ""
+      },
+      {
+        "name": "Shop",
+        "custom": false,
+        "include": false,
+        "priority": "",
+        "content": "",
+        "copy": "",
+        "notes": ""
+      },
+      {
+        "name": "Product detail pages",
+        "custom": false,
+        "include": false,
+        "priority": "",
+        "content": "",
+        "copy": "",
+        "notes": ""
+      },
+      {
+        "name": "Portfolio or case studies",
+        "custom": false,
+        "include": true,
+        "priority": "Should-have",
+        "content": "Partially exists",
+        "copy": "Client will write it",
+        "notes": "Case studies help build trust."
+      },
+      {
+        "name": "Blog or resources",
+        "custom": false,
+        "include": true,
+        "priority": "Nice-to-have",
+        "content": "Needs to be created",
+        "copy": "Copywriting needed",
+        "notes": "Useful for SEO and education."
+      },
+      {
+        "name": "Contact",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Content exists",
+        "copy": "Client will write it",
+        "notes": "Include consultation form and office details."
+      },
+      {
+        "name": "FAQ",
+        "custom": false,
+        "include": true,
+        "priority": "Should-have",
+        "content": "Needs to be created",
+        "copy": "Client will write it",
+        "notes": "Reduce friction and answer common concerns."
+      },
+      {
+        "name": "Testimonials",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Partially exists",
+        "copy": "Client will write it",
+        "notes": "High value for trust-building."
+      },
+      {
+        "name": "Pricing",
+        "custom": false,
+        "include": false,
+        "priority": "",
+        "content": "",
+        "copy": "",
+        "notes": ""
+      },
+      {
+        "name": "Booking or appointments",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Needs to be created",
+        "copy": "Client will write it",
+        "notes": "Consultation booking form and lead capture."
+      },
+      {
+        "name": "Login and registration",
+        "custom": false,
+        "include": false,
+        "priority": "",
+        "content": "",
+        "copy": "",
+        "notes": ""
+      },
+      {
+        "name": "User dashboard",
+        "custom": false,
+        "include": false,
+        "priority": "",
+        "content": "",
+        "copy": "",
+        "notes": ""
+      },
+      {
+        "name": "Admin dashboard",
+        "custom": false,
+        "include": false,
+        "priority": "",
+        "content": "",
+        "copy": "",
+        "notes": ""
+      },
+      {
+        "name": "Careers",
+        "custom": false,
+        "include": false,
+        "priority": "",
+        "content": "",
+        "copy": "",
+        "notes": ""
+      },
+      {
+        "name": "Privacy policy",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Needs to be created",
+        "copy": "Client will write it",
+        "notes": "Required for legal compliance."
+      },
+      {
+        "name": "Terms and conditions",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Needs to be created",
+        "copy": "Client will write it",
+        "notes": "Required for legal compliance."
+      },
+      {
+        "name": "Cookie policy",
+        "custom": false,
+        "include": true,
+        "priority": "Required",
+        "content": "Needs to be created",
+        "copy": "Client will write it",
+        "notes": "Required for cookie compliance."
+      }
+    ],
+    "sitemapHelp": "Yes",
+    "pagesNotes": "We want a simple structure with clear navigation split between services, resources, and consultation booking.",
+    "commonFeatures": [
+      "Responsive mobile design",
+      "Contact forms",
+      "WhatsApp integration",
+      "Testimonials and reviews",
+      "Image galleries",
+      "Accessibility requirements"
+    ],
+    "featureAreas": ["Booking & service features"],
+    "ecomFeatures": [],
+    "productCount": "",
+    "productType": "Services",
+    "paymentMethods": "",
+    "shipRegions": "",
+    "bookingFeatures": [
+      "Appointment scheduling",
+      "Booking confirmation",
+      "Reminder notifications"
+    ],
+    "bookServices": "Initial consultation, business advisory, and family law consultations",
+    "bookStaff": "3 staff members",
+    "bookCalendar": "Google Calendar",
+    "bookRules": "Reschedule at least 24 hours in advance; cancellations within 24 hours require a new booking request.",
+    "appFeatures": [],
+    "appUsers": "",
+    "appRoles": "",
+    "appData": "",
+    "appDash": "",
+    "customFeatures": [
+      {
+        "name": "Lead qualification form",
+        "priority": "Must-have",
+        "description": "A shortened consultation form that captures enquiry type, urgency, and preferred contact method.",
+        "behavior": "Users complete the form and are redirected to a confirmation page or receive immediate follow-up information.",
+        "roles": "Visitor",
+        "ref": ""
+      }
+    ],
+    "featuresNotes": "We need a consultation funnel that feels warm and professional, not too transactional.",
+    "designStyle": ["Minimal", "Corporate"],
+    "palette": "Soft white, charcoal, muted blue, and warm gold accents",
+    "brandColors": "#0F172A, #C89B3C, #EAE7E0",
+    "guidelines": "Yes",
+    "guidelinesLink": "https://www.northstarlegal.com/brand-guidelines",
+    "logo": "Vector files available",
+    "fonts": "Cormorant Garamond for headings, Inter for body copy",
+    "inspiration": [
+      {
+        "url": "https://www.mayerbrown.com",
+        "likes": "Professional legal branding and clear service structure"
+      },
+      {
+        "url": "https://www.hoganlovells.com",
+        "likes": "Strong content hierarchy and trust-building design"
+      }
+    ],
+    "avoid": "Overly dark or intimidating design, cluttered layouts, and too much legal jargon.",
+    "appearance": "Light",
+    "designComplexity": "Moderate",
+    "animation": "Subtle",
+    "figma": "https://www.figma.com/file/example-northstar-law",
+    "uiux": "Yes",
+    "wireframes": "Yes",
+    "assetLinks": "Shared folder: https://drive.google.com/drive/folders/abc123",
+    "copyWriter": "A mix",
+    "imageProvider": "Client",
+    "videoProvider": "No video needed",
+    "productDescs": "Not sure — discuss with developer",
+    "testimonialsAvail": "Yes",
+    "caseStudies": "Partially",
+    "photos": "Yes",
+    "contentMig": "Yes",
+    "copyEditing": "Yes",
+    "stock": "For some pages only",
+    "licensed": "Yes",
+    "translation": "No",
+    "contentDate": "2026-11-15",
+    "sharedLinks": "Google Drive folder with copy, photos, legal documents, and references.",
+    "integrationTypes": [
+      "CRM systems",
+      "Email marketing services",
+      "Maps",
+      "Analytics",
+      "Booking systems"
+    ],
+    "integrations": [
+      {
+        "service": "HubSpot",
+        "purpose": "CRM and lead tracking",
+        "account": "Account already exists",
+        "docs": "https://developers.hubspot.com/docs",
+        "access": "Client will grant access securely later"
+      },
+      {
+        "service": "Google Maps",
+        "purpose": "Office location embed",
+        "account": "Account already exists",
+        "docs": "https://developers.google.com/maps",
+        "access": "Client will grant access securely later"
+      },
+      {
+        "service": "Google Analytics 4",
+        "purpose": "Track traffic and conversion events",
+        "account": "Account already exists",
+        "docs": "https://analytics.google.com",
+        "access": "Client will grant access securely later"
+      }
+    ],
+    "integrationNotes": "We expect secure access arrangements and no direct credentials shared in the project documentation.",
+    "domainStatus": "I have a domain already",
+    "hostingNeed": "Need hosting and deployment setup",
+    "hostingPreference": "Recommend the best option",
+    "backend": "WordPress CMS with custom front-end development; no custom backend required beyond the booking form integration.",
+    "repo": "https://github.com/northstarlegalgroup",
+    "migrationReq": "Need to retain high-value content and restructure the service pages for better SEO and organisation.",
+    "emailHosting": "Already have email hosting",
+    "backups": "Weekly",
+    "security": [
+      "SSL / HTTPS",
+      "Secure form handling",
+      "Spam and bot protection"
+    ],
+    "scalability": "Moderate growth expected",
+    "supportExp": "Basic post-launch support for the first 3 months is expected.",
+    "techHelp": ["DNS configuration", "Deployment", "Hosting setup"],
+    "seoReq": "Basic on-page SEO",
+    "rankings": "Currently visible for a few local keywords but not consistently ranking in the top results.",
+    "gsc": "Already set up",
+    "analyticsSetup": "Google Analytics 4 is already connected",
+    "analyticsReq": ["Google Analytics 4", "Google Tag Manager", "Meta Pixel"],
+    "keywordResearch": "Yes",
+    "localSeo": "Yes",
+    "metaSocial": "Yes",
+    "sitemapRobots": "Yes",
+    "structuredData": "Yes",
+    "redirects": "Yes",
+    "cwv": "Aim for green Core Web Vitals scores",
+    "imageOpt": "Yes",
+    "a11y": "WCAG 2.1 AA",
+    "cookieConsent": "Yes",
+    "convTracking": "Track enquiry form submissions, phone click events, WhatsApp clicks, and consultation booking actions.",
+    "reporting": "Monthly report",
+    "currency": "PKR",
+    "currencyOther": "",
+    "budgetTotal": 1500000,
+    "budgetMin": 1000000,
+    "budgetMax": 2000000,
+    "devSuggest": "Yes, please suggest a budget",
+    "flex": "Slightly flexible",
+    "pricingModel": "Milestone-based",
+    "budgetIncludes": [
+      "Design",
+      "Development",
+      "Content creation",
+      "Maintenance"
+    ],
+    "budgetNotes": "We have a target range and would like scope to be refined around the consultation booking flow and service pages.",
+    "timeline": "We would like the project completed within 6 to 8 weeks.",
+    "startDate": "2026-11-01",
+    "launchDate": "2026-12-15",
+    "deadline": "We need the new site launched before the holiday season campaign begins.",
+    "pmTools": "Not sure — discuss with developer",
+    "pmNotes": "We can provide feedback weekly and keep approvals on a shared drive or project board.",
+    "process": "A flexible discovery and design process with milestone reviews and a final QA sign-off.",
+    "stakeholderPlan": "We have one decision-maker plus a few stakeholders for approval and feedback.",
+    "approvals": "Client approves milestone sign-offs after each design and content review stage.",
+    "owner": "Ayesha Khan",
+    "comms": "Email and WhatsApp",
+    "availability": "Monday to Friday, 10:00–17:00 PKT",
+    "responseTime": "Within 1 business day",
+    "devStatus": "Initial Requirements — Pending Developer Review",
+    "devRevision": "1",
+    "sigDate": "2026-10-11",
+    "inquiryDate": "2026-10-11"
+  }
+}
