@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <style>
+      .bg { fill: #0c0c0d; }
+      .card-bg { fill: #18181b; stroke: #27272a; stroke-width: 2px; }
+      .brand { font-family: system-ui, -apple-system, sans-serif; font-weight: 700; fill: #ffffff; font-size: 28px; letter-spacing: 2px; }
+      .red-accent { fill: #8c1c24; }
+      .title { font-family: system-ui, -apple-system, sans-serif; font-weight: 800; fill: #ffffff; font-size: 52px; }
+      .subtitle { font-family: system-ui, -apple-system, sans-serif; font-weight: 400; fill: #a1a1aa; font-size: 22px; }
+      .badge-bg { fill: #27272a; stroke: #3f3f46; stroke-width: 1px; }
+      .badge-text { font-family: system-ui, -apple-system, sans-serif; font-weight: 600; fill: #f5f5f6; font-size: 14px; }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" class="bg"/>
+  
+  <!-- Subtle Grid Lines / Accent Glow -->
+  <line x1="0" y1="120" x2="1200" y2="120" stroke="#18181b" stroke-width="1"/>
+  <line x1="0" y1="510" x2="1200" y2="510" stroke="#18181b" stroke-width="1"/>
+
+  <!-- Main Container Card -->
+  <g transform="translate(80, 80)">
+    <!-- Card Base -->
+    <rect x="0" y="0" width="1040" height="470" rx="14" class="card-bg"/>
+    
+    <!-- Red Top Border Accent -->
+    <path d="M 14,0 L 1026,0" stroke="#8c1c24" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Brand Name -->
+    <text x="60" y="80" class="brand">ARCHER <tspan class="red-accent">TECH</tspan></text>
+    
+    <!-- Service Category Badge -->
+    <g transform="translate(60, 110)">
+      <rect x="0" y="0" width="170" height="34" rx="6" class="badge-bg"/>
+      <text x="85" y="22" text-anchor="middle" class="badge-text">Web Development</text>
+    </g>
+    
+    <!-- Main Headline -->
+    <text x="60" y="210" class="title">Website Project Discovery</text>
+    
+    <!-- Subheadline -->
+    <text x="60" y="265" class="subtitle">Complete our 18-step interactive questionnaire to define your scope &amp; goals.</text>
+    
+    <!-- Bottom Footer Box inside Card -->
+    <g transform="translate(60, 340)">
+      <rect x="0" y="0" width="920" height="52" rx="8" fill="#0c0c0d" stroke="#27272a" stroke-width="1"/>
+      <text x="28" y="32" fill="#71717a" font-family="system-ui, sans-serif" font-size="14" font-weight="500">Client Information • Technical Requirements • Timeline &amp; Budget</text>
+      
+      <!-- Step Indicator Badge -->
+      <circle cx="880" cy="26" r="14" fill="#8c1c24"/>
+      <text x="880" y="31" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="700">18</text>
+    </g>
+  </g>
+</svg>
